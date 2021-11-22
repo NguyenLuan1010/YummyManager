@@ -8,17 +8,24 @@
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
-            "mainClass": "mainload.Main",
+            "mainClass": "admin.mainload.Main",
             "projectName": "YummyManager_1380cd68",
             "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-17.0.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "mainload.Main",
+            "projectName": "YummyManager_1380cd68",
+            
         },
         {
             "type": "java",
             "name": "Launch App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "YummyManager_1380cd68",
-           
+            "projectName": "YummyManager_1380cd68"
         },
         {
             "type": "java",
