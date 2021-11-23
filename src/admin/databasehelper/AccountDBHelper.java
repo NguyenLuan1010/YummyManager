@@ -151,7 +151,7 @@ public class AccountDBHelper {
         }
     }
     //Send mail . Don't Delete this.
-    public void sendMail() throws Exception{
+ /*    public void sendMail() throws Exception{
        Properties properties = new Properties();
        properties.put("mail.smtp.auth", true);
        properties.put("mail.smtp.host","smtp.gmail.com");
@@ -162,7 +162,7 @@ public class AccountDBHelper {
        Session session = Session.getInstance(properties , new Authenticator() {
            @Override
            protected PasswordAuthentication  getPasswordAuthentication(){
-            return new PasswordAuthentication("vanluan101002@gmail.com", "Nvl10102002");
+            return new PasswordAuthentication("", "");
            }
        });
        Message message = new MimeMessage(session);
@@ -180,5 +180,5 @@ public class AccountDBHelper {
 
        Transport.send(message);
       
-   }
+   } */
 }
