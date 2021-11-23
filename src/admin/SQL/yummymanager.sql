@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 11:07 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.10
+-- Generation Time: Nov 23, 2021 at 03:49 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,7 @@ DELIMITER ;
 CREATE TABLE `tblaccount` (
   `ACCOUNTID` text NOT NULL,
   `NAME` text NOT NULL,
-  `PHONENUMBER` text NOT NULL,
+  `EMAIL` text NOT NULL,
   `PASSWORD` text NOT NULL,
   `TYPE` text NOT NULL,
   `STATUS` text NOT NULL
@@ -54,7 +54,7 @@ CREATE TABLE `tblaccount` (
 -- Dumping data for table `tblaccount`
 --
 
-INSERT INTO `tblaccount` (`ACCOUNTID`, `NAME`, `PHONENUMBER`, `PASSWORD`, `TYPE`, `STATUS`) VALUES
+INSERT INTO `tblaccount` (`ACCOUNTID`, `NAME`, `EMAIL`, `PASSWORD`, `TYPE`, `STATUS`) VALUES
 ('A01', 'Tran Dinh Nam', '0357430668', 'Nam123456', 'Admin', 'Unlock'),
 ('A02', 'Pham Nhu Hoang Phuc', '0348231234', 'Phuc13579', 'Employee', 'Unlock');
 
@@ -69,15 +69,17 @@ CREATE TABLE `tblbill` (
   `DATETIME` text NOT NULL,
   `TABLEID` varchar(50) NOT NULL,
   `DETAILBILLID` varchar(50) NOT NULL,
-  `SUMOFPRICE` double NOT NULL
+  `SUMOFPRICE` double NOT NULL,
+  `BillStatus` varchar(50) NOT NULL DEFAULT 'On'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblbill`
 --
 
-INSERT INTO `tblbill` (`BILLID`, `DATETIME`, `TABLEID`, `DETAILBILLID`, `SUMOFPRICE`) VALUES
-('B01', '22-11-2021', 'T01', '', 30);
+INSERT INTO `tblbill` (`BILLID`, `DATETIME`, `TABLEID`, `DETAILBILLID`, `SUMOFPRICE`, `BillStatus`) VALUES
+('D01', '22-11-2021', 'T01', 'D01', 30, 'On'),
+('D02', '23-11-2021', 'T01', 'D02', 100, 'On');
 
 -- --------------------------------------------------------
 
@@ -91,9 +93,16 @@ CREATE TABLE `tbldetailbill` (
   `TABLEID` varchar(50) NOT NULL,
   `FOODQUANTITY` int(10) NOT NULL,
   `SUMOFPRICE` double NOT NULL,
-  `BILLSTATUS` text NOT NULL,
+  `BILLSTATUS` text NOT NULL DEFAULT 'On',
   `SALECODE` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbldetailbill`
+--
+
+INSERT INTO `tbldetailbill` (`DETAILBILLID`, `FOODID`, `TABLEID`, `FOODQUANTITY`, `SUMOFPRICE`, `BILLSTATUS`, `SALECODE`) VALUES
+('D01', 'F01', 'T01', 5, 100, 'On', 'ABC123XYZ');
 
 -- --------------------------------------------------------
 
@@ -134,6 +143,13 @@ CREATE TABLE `tblsaledetail` (
   `SALESTATUS` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tblsaledetail`
+--
+
+INSERT INTO `tblsaledetail` (`SALECODE`, `DATESTART`, `DATEEND`, `DECRIPTION`, `DISCOUNT`, `SALESTATUS`) VALUES
+('ABC123XYZ', '1-1-2022', '1-2-2022', 'Khuyễn mãi đầu năm', 20, 'Off');
+
 -- --------------------------------------------------------
 
 --
@@ -163,14 +179,14 @@ INSERT INTO `tbltablemap` (`TABLEID`, `SEATSNUMBER`, `FLOORNUMBER`, `TABLESTATUS
 -- Indexes for table `tblbill`
 --
 ALTER TABLE `tblbill`
-  ADD PRIMARY KEY (`BILLID`),
+  ADD PRIMARY KEY (`BILLID`,`TABLEID`,`DETAILBILLID`),
   ADD KEY `FKTABLEID` (`TABLEID`);
 
 --
 -- Indexes for table `tbldetailbill`
 --
 ALTER TABLE `tbldetailbill`
-  ADD PRIMARY KEY (`DETAILBILLID`),
+  ADD PRIMARY KEY (`DETAILBILLID`,`FOODID`,`TABLEID`),
   ADD KEY `FKBILLTABLEID` (`TABLEID`),
   ADD KEY `FK_DETAIL_FOODID` (`FOODID`),
   ADD KEY `FK_SALECODE` (`SALECODE`);

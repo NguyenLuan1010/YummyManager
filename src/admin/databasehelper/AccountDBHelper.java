@@ -48,7 +48,7 @@ public class AccountDBHelper {
             while (rs.next()) {
                 String id = rs.getString("ACCOUNTID");
                 String username = rs.getString("NAME");
-                String phone = rs.getString("PHONENUMBER");
+                String phone = rs.getString("EMAIL");
                 String password = rs.getString("PASSWORD");
                 String type = rs.getString("TYPE");
                 String status = rs.getString("STATUS");
