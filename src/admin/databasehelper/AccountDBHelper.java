@@ -151,7 +151,7 @@ public class AccountDBHelper {
         }
     }
     //Send mail . Don't Delete this.
- /*    public void sendMail() throws Exception{
+   public void sendMail() throws Exception{
        Properties properties = new Properties();
        properties.put("mail.smtp.auth", true);
        properties.put("mail.smtp.host","smtp.gmail.com");
@@ -180,5 +180,5 @@ public class AccountDBHelper {
 
        Transport.send(message);
       
-   } */
+   } 
 }
