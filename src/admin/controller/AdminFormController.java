@@ -1,4 +1,5 @@
 package admin.controller;
+
 import java.io.IOException;
 
 import admin.databasehelper.AccountDBHelper;
@@ -10,11 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class AdminFormController {
+   
     @FXML
     private AnchorPane Pane_AdminForm;
 
     @FXML
-    private TextField txtPhoneNumber;
+    private TextField txtEmail;
 
     @FXML
     private PasswordField txtPassword;
@@ -27,14 +29,16 @@ public class AdminFormController {
 
     @FXML
     void onClickForgotAccount(ActionEvent event) {
-      
+
     }
 
     @FXML
     void onClickLogIn(ActionEvent event) throws IOException {
-         String phone = txtPhoneNumber.getText();
+        String email = txtEmail.getText();
         String password = txtPassword.getText();
-        AccountDBHelper.AdminLoginIn(phone, password); 
+        AccountDBHelper.AdminLogIn(email, password);
     }
-  
-}
+       
+    }
+
+

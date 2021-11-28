@@ -1,4 +1,5 @@
 package admin.controller;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
-public class SignInController implements Initializable{
+
+public class SignInController implements Initializable {
     @FXML
     private Button btnCancel;
 
@@ -26,10 +28,10 @@ public class SignInController implements Initializable{
 
     @FXML
     private Button btnAdmin;
-    
+
     @FXML
     private Button btnEmployee;
-     
+
     @FXML
     private StackPane contentArea;
 
@@ -37,19 +39,18 @@ public class SignInController implements Initializable{
     private AnchorPane PaneShow;
 
     @FXML
-    void onClickAdmin(ActionEvent event) throws IOException{
-       Navigator.getInstance().changePage(contentArea, "../frontend/AdminFormUI.fxml");
+    void onClickAdmin(ActionEvent event) throws IOException {
+        Navigator.getInstance().changePage(contentArea, "../frontend/AdminFormUI.fxml");
     }
 
     @FXML
     void onClickCancel(ActionEvent event) {
-         System.exit(0);
+        System.exit(0);
     }
 
     @FXML
-    void onClickEmployee(ActionEvent event) throws IOException{
+    void onClickEmployee(ActionEvent event) throws IOException {
         Navigator.getInstance().changePage(contentArea, "../frontend/EmployeeFormUI.fxml");
-
     }
 
     @FXML

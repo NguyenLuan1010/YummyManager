@@ -1,20 +1,22 @@
 package admin.model;
 
-public class BillOrder_Model {
-    String BILLID;
-    String DATETIME;
-    String TABLEID;
-    String DETAILBILLID;
-    String SUMOFPRICES;
-    String BILLSTATUS;
+import javafx.scene.control.Button;
 
-    public BillOrder_Model(String bILLID, String dATETIME, String tABLEID, String dETAILBILLID, String sUMOFPRICES,String bILLSTATUS) {
+public class BillOrder_Model {
+    private String BILLID;
+    private String DATETIME;
+    private String TABLEID;
+    private String DETAILBILLID;
+    private String SUMOFPRICES;
+    public static Button SEEDETAIL;
+
+    public BillOrder_Model(String bILLID, String dATETIME, String tABLEID, String dETAILBILLID, String sUMOFPRICES) {
         BILLID = bILLID;
         DATETIME = dATETIME;
         TABLEID = tABLEID;
         DETAILBILLID = dETAILBILLID;
         SUMOFPRICES = sUMOFPRICES;
-        BILLSTATUS = bILLSTATUS;
+        SEEDETAIL = new Button("Detail");
     }
 
     public String getBILLID() {
@@ -53,16 +55,16 @@ public class BillOrder_Model {
         return SUMOFPRICES;
     }
 
-    public void setSUMOFPRICEString(String sUMOFPRICES) {
+    public void setSUMOFPRICES(String sUMOFPRICES) {
         SUMOFPRICES = sUMOFPRICES;
     }
 
-    public String getBILLSTATUS() {
-        return BILLSTATUS;
+    public Button getSEEDETAIL() {
+        return SEEDETAIL;
     }
 
-    public void setBILLSTATUS(String bILLSTATUS) {
-        BILLSTATUS = bILLSTATUS;
+    public void setSEEDETAIL(Button sEEDETAIL) {
+        SEEDETAIL = sEEDETAIL;
     }
 
 }

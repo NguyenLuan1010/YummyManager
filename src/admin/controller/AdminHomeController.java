@@ -43,7 +43,7 @@ public class AdminHomeController {
 
     @FXML
     void onClickAccount(ActionEvent event) throws IOException {
-           Navigator.getInstance().goToAccountScene();
+          
     }
 
     @FXML

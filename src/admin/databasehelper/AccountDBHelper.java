@@ -48,11 +48,11 @@ public class AccountDBHelper {
             while (rs.next()) {
                 String id = rs.getString("ACCOUNTID");
                 String username = rs.getString("NAME");
-                String phone = rs.getString("EMAIL");
+                String email = rs.getString("EMAIL");
                 String password = rs.getString("PASSWORD");
                 String type = rs.getString("TYPE");
                 String status = rs.getString("STATUS");
-                Account acc = new Account(id, username,phone, password, type, status);
+                Account acc = new Account(id, username,email, password, type, status);
                 listAcc.add(acc);
             }
         } catch (Exception e) {
@@ -60,15 +60,16 @@ public class AccountDBHelper {
         }
         return listAcc;
     }
-   //Regex phone number.
-    public static Boolean checkPhoneRegex(String phone) {
-        String regex = "^0(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$";
+  
+ 
+    public static Boolean checkEmailRegex(String email) {
+        String regex = "[a-zA-Z0-9_\\.]{3,20}@[a-zA-Z0-9]{3,10}\\.[a-zA-Z0-9]{2,5}";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(phone);
+        Matcher matcher = pattern.matcher(email);
         boolean match = matcher.matches();
         return match;
     }
-   //Regex password.
+
     public static Boolean checkPasswordRegex(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
         Pattern pattern = Pattern.compile(regex);
@@ -76,35 +77,32 @@ public class AccountDBHelper {
         boolean match = matcher.matches();
         return match;
     }
-  //Login to Admin page.
-    public static void AdminLoginIn(String phone, String password) throws IOException {
+
+    public static void AdminLogIn(String email, String password) throws IOException {
         int flag = 1;
         System.out.print(checkPasswordRegex(password));
         List<Account> listAccount = AccountDBHelper.getAllAccount();
         loop:
         for (Account acc : listAccount) {
-            if (phone.isEmpty() || password.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty()) {
                 flag = 3;
-            } else if (!checkPhoneRegex(phone)) {
+            } else if (!checkEmailRegex(email)) {
                 flag = 5;
             } else {
                 if (!checkPasswordRegex(password)) {
                     flag = 6;
                 } else if (acc.getStatus().equalsIgnoreCase("Locked")) {
                     flag = 2;
-                } else if (!phone.equals(acc.getPhone()) || !password.equals(acc.getPassword())) {
+                } else if (!email.equals(acc.getEmail()) || !password.equals(acc.getPassword())) {
                     flag = 4;
                 } else {
                     if (acc.getType().equalsIgnoreCase("Admin")) {
-                        Navigator.getInstance().goToAdminHome();
+                        Navigator.getInstance().goToAdminHome2();
                         break loop;
-                    }else{
-                        flag = 4;
-                    }
+                    } 
                 }
             }
         }
-     
         if (flag == 2) {
             Navigator.getInstance().showAlert(Alert.AlertType.ERROR,"Your Account is Locked!");
         } else if (flag == 3) {
@@ -130,7 +128,7 @@ public class AccountDBHelper {
                     flag = 6;
                 } else if (acc.getStatus().equalsIgnoreCase("Locked")) {
                     flag = 2;
-                } else if (!username.equals(acc.getUsername()) || !password.equals(acc.getPassword())) {
+                } else if (!username.equals(acc.getUserName()) || !password.equals(acc.getPassword())) {
                     flag = 4;
                 } else {
                     if (acc.getType().equalsIgnoreCase("Employee")) {
