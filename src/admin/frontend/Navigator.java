@@ -26,7 +26,7 @@ public class Navigator {
     private static final String SALE_DETAILS = "SaleDetailsUI.fxml";
     private static final String TABLE_MAP = "tablefrontend/TableMapUI2.fxml";
     private static final String ADMINHOME = "AdminHomeUI2.fxml";
-    private static final String ACCOUNT_HOME = "frontend/AccountHomeUI2.fxml";
+    private static final String ACCOUNT_HOME = "accountfrontend/AccountHomeUI2.fxml";
 
     public Navigator() {
     }
@@ -69,7 +69,6 @@ public class Navigator {
         goToScene("AcountHome", ACCOUNT_HOME);
     }
     
-
     // Change page on a Scene
     public void changePage(StackPane contentArea, String source) {
         try {
