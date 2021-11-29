@@ -42,8 +42,9 @@ public class AdminHomeUi2Controller{
     }
 
     @FXML
-    void onClickBillOrder(ActionEvent event) {
-
+    void onClickBillOrder(ActionEvent event) throws IOException {
+        Navigator.getInstance().goToBillOrder();
+        System.out.println("aaaaaaaaa");
     }
 
     @FXML

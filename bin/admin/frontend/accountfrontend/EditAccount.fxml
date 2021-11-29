@@ -10,25 +10,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="489.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.controller.acountcontroller.EditAccountController">
    <children>
-      <Label layoutX="9.0" layoutY="79.0" prefHeight="49.0" prefWidth="121.0" text="Account ID:" textFill="#186b01">
+      <Label layoutX="9.0" layoutY="169.0" prefHeight="49.0" prefWidth="91.0" text="Email:" textFill="#0d6b02">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="txtAccountID" layoutX="158.0" layoutY="70.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
-         <font>
-            <Font size="19.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="WAIT" />
-         </cursor>
-      </TextField>
-      <Label layoutX="9.0" layoutY="207.0" prefHeight="49.0" prefWidth="91.0" text="Email:" textFill="#0d6b02">
-         <font>
-            <Font name="System Bold" size="21.0" />
-         </font>
-      </Label>
-      <Label layoutX="9.0" layoutY="274.0" prefHeight="49.0" prefWidth="149.0" text="Pasword:" textFill="#286f07">
+      <Label layoutX="9.0" layoutY="252.0" prefHeight="49.0" prefWidth="149.0" text="Pasword:" textFill="#286f07">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
@@ -51,12 +38,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <TextField fx:id="txtEmail" layoutX="158.0" layoutY="206.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
+      <TextField fx:id="txtEmail" layoutX="158.0" layoutY="168.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtPassword" layoutX="158.0" layoutY="273.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
+      <TextField fx:id="txtPassword" layoutX="158.0" layoutY="252.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
          <font>
             <Font size="20.0" />
          </font>
@@ -66,22 +53,22 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="9.0" layoutY="151.0" prefHeight="49.0" prefWidth="129.0" text="Name:" textFill="#186b01">
+      <Label layoutX="4.0" layoutY="86.0" prefHeight="49.0" prefWidth="129.0" text="Name:" textFill="#186b01">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="txtName" layoutX="158.0" layoutY="143.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
+      <TextField fx:id="txtName" layoutX="158.0" layoutY="86.0" prefHeight="49.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-background-color: transparent;">
          <font>
             <Font size="19.0" />
          </font>
       </TextField>
-      <ChoiceBox fx:id="cbType" layoutX="158.0" layoutY="344.0" prefHeight="42.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-background-color: transparent; -fx-font-size: 20px;">
+      <ChoiceBox fx:id="cbType" layoutX="158.0" layoutY="335.0" prefHeight="42.0" prefWidth="324.0" style="-fx-border-color: #0d3d1b; -fx-border-width: 3; -fx-background-color: transparent; -fx-font-size: 20px;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </ChoiceBox>
-      <Label layoutX="14.0" layoutY="345.0" prefHeight="49.0" prefWidth="108.0" text="Type:" textFill="#05610e">
+      <Label layoutX="1.0" layoutY="336.0" prefHeight="49.0" prefWidth="108.0" text="Type:" textFill="#05610e">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>

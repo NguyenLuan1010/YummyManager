@@ -120,12 +120,12 @@ public class TableMapController implements Initializable {
 
     @FXML
     void onClickTableView(MouseEvent event) {
-        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate);
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate,-770,0);
     }
 
     @FXML
     void onClickAdd(ActionEvent event) {
-        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate);
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate,-770,0);
     }
 
     @FXML
@@ -135,21 +135,21 @@ public class TableMapController implements Initializable {
 
     @FXML
     void onClickEdit(ActionEvent event) {
-        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate);
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate,-770,0);
     }
     @FXML
     void onClickMainSearch(ActionEvent event) {
-        Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate);
+        Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
     }
     @FXML
     void onClickSearch(ActionEvent event) {
-        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate);
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate,-770,0);
     }
 
     @FXML
     void onClickMainAdd(ActionEvent event) {
         Navigator.getInstance().changePage(contentArea, "../frontend/tablefrontend/AddNewTableUI.fxml");
-        Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate);
+        Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
     }
 
     @FXML
@@ -166,14 +166,16 @@ public class TableMapController implements Initializable {
         if (tbl == null) {
             Navigator.getInstance().showAlert(AlertType.ERROR, "Please select one!");
         } else {
-            Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate);
+            Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("../../frontend/tablefrontend/EditTableUI.fxml"));
             Parent root = loader.load();
             contentArea.getChildren().removeAll();
             contentArea.getChildren().setAll(root);
+
             EditTableController controller = loader.getController();
             controller.LoadData(tbl);
+
             stage.setScene(contentArea.getScene());
         }
     }

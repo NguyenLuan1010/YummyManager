@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import admin.databasehelper.AccountDBHelper;
 import admin.frontend.Navigator;
+import admin.model.Account;
+import javafx.beans.value.ObservableValueBase;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -23,25 +29,25 @@ public class AccountController implements Initializable {
     private AnchorPane MainPane;
 
     @FXML
-    private TableView<?> tblAccount;
+    private TableView<Account> tblAccount;
 
     @FXML
-    private TableColumn<?, ?> tcAccountID;
+    private TableColumn<Account, String> tcAccountID;
 
     @FXML
-    private TableColumn<?, ?> tcName;
+    private TableColumn<Account, String> tcName;
 
     @FXML
-    private TableColumn<?, ?> tcEmail;
+    private TableColumn<Account, String> tcEmail;
 
     @FXML
-    private TableColumn<?, ?> tcPassword;
+    private TableColumn<Account, String> tcPassword;
 
     @FXML
-    private TableColumn<?, ?> tcType;
+    private TableColumn<Account, String> tcType;
 
     @FXML
-    private TableColumn<?, ?> tcStatus;
+    private TableColumn<Account, String> tcStatus;
 
     @FXML
     private AnchorPane paneTranslate;
@@ -87,12 +93,13 @@ public class AccountController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
+        getAllAccount();
     }
 
     @FXML
     void onClickAdd(ActionEvent event) {
-
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
     }
 
     @FXML
@@ -102,16 +109,26 @@ public class AccountController implements Initializable {
 
     @FXML
     void onClickEdit(ActionEvent event) {
-
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
+        
     }
 
     @FXML
     void onClickMainAdd(ActionEvent event) {
-
+        Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
+        Navigator.getInstance().changePage(contentArea, "../frontend/accountfrontend/AddNewAccount.fxml");
     }
 
     @FXML
     void onClickMainEdit(ActionEvent event) {
+        Account Acc = tblAccount.getSelectionModel().getSelectedItem();
+        if (Acc != null) {
+            EditAccountController.Account = Acc;
+            Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
+            Navigator.getInstance().changePage(contentArea, "../frontend/accountfrontend/EditAccount.fxml");
+        }else{
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Choose a Account to edit");
+        }
 
     }
 
@@ -137,6 +154,18 @@ public class AccountController implements Initializable {
 
     @FXML
     void onClickTableView(MouseEvent event) {
+        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
+    }
+
+    private void getAllAccount() {
+        ObservableList<Account> listAcc = FXCollections.observableArrayList(AccountDBHelper.getAllAccount());
+        tblAccount.setItems(listAcc);
+        tcAccountID.setCellValueFactory(CellData -> CellData.getValue().getIdProperty());
+        tcEmail.setCellValueFactory(CellData -> CellData.getValue().getEmailProperty());
+        tcName.setCellValueFactory(CellData -> CellData.getValue().getUserNameProperty());
+        tcPassword.setCellValueFactory(CellData -> CellData.getValue().getPasswordProperty());
+        tcStatus.setCellValueFactory(CellData -> CellData.getValue().getStatusProperty());
+        tcType.setCellValueFactory(CellData -> CellData.getValue().getTypeProperty());
 
     }
 }
