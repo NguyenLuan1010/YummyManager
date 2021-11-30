@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,7 +52,9 @@ public class AccountDBHelper {
                 String password = rs.getString("PASSWORD");
                 String type = rs.getString("TYPE");
                 String status = rs.getString("STATUS");
+
                 Account acc = new Account(id, username, email, password, type, status);
+
                 listAcc.add(acc);
             }
         } catch (Exception e) {
@@ -59,6 +62,61 @@ public class AccountDBHelper {
         }
         return listAcc;
     }
+
+
+
+    public static boolean addNewAccount(String AccID, String Name, String Email, String Pass, String Type) {
+        String query = "INSERT INTO `tblaccount`(  `ACCOUNTID`, `NAME`, `EMAIL`, `PASSWORD`, `TYPE`) VALUES (?,?,?,?,?)";
+
+        try (
+                Connection cnn = ConnectDBHelper.getConnect();
+                PreparedStatement stm = cnn.prepareStatement(query);) {
+            stm.setString(1, AccID);
+            stm.setString(2, Name);
+            stm.setString(3, Email);
+            stm.setString(4, Pass);
+            stm.setString(5, Type);
+
+            int resultInsert;
+
+            resultInsert = stm.executeUpdate();
+            if (resultInsert > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Loi:" + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public static boolean EditAccount (String name, String email, String pass, String type, String status, String idAcc)
+    {
+        String query = "UPDATE `tblaccount` SET `NAME`= ? ,`EMAIL`= ? ,`PASSWORD`= ?,`TYPE`= ? ,`STATUS`= ? WHERE `ACCOUNTID` = ? ";
+        
+        try 
+        (
+            Connection snn = ConnectDBHelper.getConnect();
+            PreparedStatement stm = snn.prepareStatement(query);
+        )
+        {
+            stm.setString(1, name);
+            stm.setString(2, email);
+            stm.setString(3, pass);
+            stm.setString(4, type);
+            stm.setString(5, status);
+            stm.setString(6, idAcc);
+
+            int resultUpdate = stm.executeUpdate();
+            if(resultUpdate > 0)
+            {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+    return false;
+    }
+
 
     public static Boolean checkEmailRegex(String email) {
         String regex = "[a-zA-Z0-9_\\.]{3,20}@[a-zA-Z0-9]{3,10}\\.[a-zA-Z0-9]{2,5}";
@@ -96,6 +154,7 @@ public class AccountDBHelper {
                     if (acc.getType().equalsIgnoreCase("Admin")) {
                         Navigator.getInstance().goToAdminHome2();
                         break loop;
+
                     }
                 }
             }
@@ -114,6 +173,8 @@ public class AccountDBHelper {
         }
     }
 
+   
+ 
    
   //Create the ramdom string.
   public static String randomString(){
@@ -164,5 +225,6 @@ public class AccountDBHelper {
       Transport.send(message);
       System.out.print("DONE");
      }
+
 
 }

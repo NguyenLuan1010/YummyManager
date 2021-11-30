@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2021 at 03:20 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.10
+-- Generation Time: Nov 29, 2021 at 06:37 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yummygang`
+-- Database: `yummymanager`
 --
 
 DELIMITER $$
@@ -33,10 +33,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `checkDataUser` (IN `phoneNumber` TE
      SELECT * FROM tblaccount WHERE PHONENUMBER = phoneNUmber AND PASSWORD = passwordHash;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `editTableMap` (IN `tableName` TEXT, IN `seatsNumber` INT, IN `floorsNumber` INT, IN `tableStatus` TEXT, IN `tableID` TEXT)  BEGIN
-   UPDATE tbltablemap SET TABLENAME =tableName,SEATSNUMBER=seatsNumber,FLOORNUMBER=floorsNumber,TABLESTATUS=tableStatus WHERE `tbltablemap`.`TABLEID`= tableID;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `filterDate` (IN `DateStart` CHAR(50), IN `DateEnd` CHAR(50))  BEGIN
 SELECT * FROM `tblbill` WHERE DATETIME BETWEEN DateStart AND DateEnd ;
 END$$
@@ -47,10 +43,6 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBillOrder` ()  BEGIN
 SELECT * FROM `tblbill`;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllTable` ()  BEGIN
-   SELECT * FROM tbltablemap;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDataForBill` (IN `BillID` CHAR(50))  BEGIN
@@ -71,7 +63,7 @@ CREATE TABLE `tblaccount` (
   `EMAIL` text NOT NULL,
   `PASSWORD` text NOT NULL,
   `TYPE` text NOT NULL,
-  `STATUS` text NOT NULL
+  `STATUS` text NOT NULL DEFAULT 'Unlock'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -79,8 +71,14 @@ CREATE TABLE `tblaccount` (
 --
 
 INSERT INTO `tblaccount` (`ACCOUNTID`, `NAME`, `EMAIL`, `PASSWORD`, `TYPE`, `STATUS`) VALUES
-('A01', 'Trần Đình Nam', 'Nam@gmail.com', 'Nam123456', 'Admin', 'Unlock'),
-('A02', 'Nguyễn Văn Luận', 'Luan@gmail.com', 'Luan123456', 'Admin', 'Unlock');
+('A01', 'Tran Dinh Nam', '0123456789', 'Ad123456789', 'admin', 'unlock'),
+('A02', 'Pham Nhu Hoang Phuc', 'ad111111', 'ad1111111', '[value-5]', '[value-6]'),
+('A03', 'Tran DInh Nam', '', '', 'admin', 'unlock'),
+('', 'aaaaa', 'aaaaa', 'aaaaa', 'aaaaaa', 'Unlock'),
+('bbbbbbb', 'bbbbb', 'bb', 'bb', 'Admin', 'Unlock'),
+('', '', '', '', 'Employee', 'Unlock'),
+('1925', 'Tran Dinh Nam', 'aaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaa', 'Admin', 'Unlock'),
+('#3089', 'NaM', 'nam@gmail.com', 'asd', 'Admin', 'UNLOCK');
 
 -- --------------------------------------------------------
 
@@ -187,7 +185,6 @@ INSERT INTO `tblsaledetail` (`SALECODE`, `DATESTART`, `DATEEND`, `DECRIPTION`, `
 
 CREATE TABLE `tbltablemap` (
   `TABLEID` varchar(50) NOT NULL,
-  `TABLENAME` text NOT NULL,
   `SEATSNUMBER` int(11) NOT NULL,
   `FLOORNUMBER` int(11) NOT NULL,
   `TABLESTATUS` text NOT NULL
@@ -197,27 +194,9 @@ CREATE TABLE `tbltablemap` (
 -- Dumping data for table `tbltablemap`
 --
 
-INSERT INTO `tbltablemap` (`TABLEID`, `TABLENAME`, `SEATSNUMBER`, `FLOORNUMBER`, `TABLESTATUS`) VALUES
-('T01', 'Bàn T01 tầng 1', 4, 1, 'Active'),
-('T02', 'bàn T02 tầng 2', 4, 2, 'Full'),
-('T03', 'Bàn T03 tầng 1', 4, 1, 'Empty'),
-('T04', 'Bàn T04 tầng 1', 4, 1, 'Empty'),
-('T05', 'Bàn T05 tầng 1', 2, 1, 'Inactive'),
-('T06', 'Bàn T06 tầng 2', 4, 2, 'Full'),
-('T07', 'Bàn T07 tầng 1', 4, 1, 'Empty'),
-('T08', 'Bàn T08 tầng 2', 2, 2, 'Empty'),
-('T09', 'Bàn T09 tầng 1', 4, 1, 'Full'),
-('T10', 'Bàn T10 tầng 2', 2, 2, 'Empty'),
-('T11', 'Bàn T11 tầng 2', 4, 2, 'Full'),
-('T12', 'Bàn T12 tầng 2', 4, 2, 'Empty'),
-('T13', 'Bàn T13 tầng 2', 4, 2, 'Empty'),
-('T14', 'bàn T14 tầng 1', 2, 1, 'Empty'),
-('T15', 'Bàn T15 tầng 2', 4, 2, 'Full'),
-('T16', 'Bàn T16 tầng 2', 4, 2, 'Empty'),
-('T17', 'Bàn T17 tầng 1', 2, 1, 'Full'),
-('T18 ', 'Bàn T18 tầng 2', 2, 1, 'Full'),
-('T20', 'Bàn T20 tầng 2', 4, 2, 'Full'),
-('T23', 'Bàn T23 tầng 2', 4, 2, 'Empty');
+INSERT INTO `tbltablemap` (`TABLEID`, `SEATSNUMBER`, `FLOORNUMBER`, `TABLESTATUS`) VALUES
+('T01', 4, 1, 'Active'),
+('T02', 2, 2, 'Active');
 
 --
 -- Indexes for dumped tables

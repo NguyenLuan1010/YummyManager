@@ -1,6 +1,7 @@
 package admin.frontend;
 
 import java.io.IOException;
+import java.util.Random;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
@@ -21,9 +22,12 @@ public class Navigator {
     private Stage state;
     private FXMLLoader fxmlloader;
     private static final String LOG_IN = "loginfrontend/LogInUI.fxml";
-    private static final String BILL_ORDER = "BillOrderUI.fxml";
-    private static final String FOOD_MENU = "FoodMenuUI.fxml";
-    private static final String SALE_DETAILS = "salefrontend/SaleHomeUI.fxml";
+
+
+    private static final String BILL_ORDER = "billfrontend/BillOrderUI2.fxml";
+    private static final String FOOD_MENU = "foodfrontend/FoodMenuUI.fxml";
+    private static final String SALE_DETAILS = "salefrontend/SaleDetailsUI.fxml";
+
     private static final String TABLE_MAP = "tablefrontend/TableMapUI2.fxml";
     private static final String ADMINHOME = "AdminHomeUI2.fxml";
     private static final String ACCOUNT_HOME = "accountfrontend/AccountHomeUI2.fxml";
@@ -89,22 +93,24 @@ public class Navigator {
     public void showAlert(AlertType type, String title) {
         Alert alert = new Alert(type);
         alert.setContentText(title);
-        alert.show();
+        alert.showAndWait();
     }
 
-    //Plus Translate X
-    public void translateSideBarPlus(Pane pane1, Pane pane2, AnchorPane paneTranslate,int ToX, int TranX) {
+
+    public void translateSideBarPlus(Pane pane1, Pane pane2, AnchorPane paneTranslate, int ToX, int TranX) {
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.seconds(0.5));
         translateTransition.setNode(paneTranslate);
-        translateTransition.setToX(ToX);/*0*/
+        translateTransition.setToX(ToX);
         translateTransition.play();
-        paneTranslate.setTranslateX(TranX);/*-600*/
+        paneTranslate.setTranslateX(TranX);
+
         translateTransition.setOnFinished(event -> {
             pane1.setVisible(false);
             pane2.setVisible(true);
         });
     }
+
 
     //Minus Translate X
     public void translateSideBarMinus(Pane pane1, Pane pane2, AnchorPane paneTranslate,int ToX, int TranX) {
@@ -139,7 +145,7 @@ public class Navigator {
         translateTransition.setNode(paneTranslate);
         translateTransition.setToY(ToY);/*-770*/
         translateTransition.play();
-        paneTranslate.setTranslateY(TranY);/*0*/
+        paneTranslate.setTranslateY(TranY);
         translateTransition.setOnFinished(event -> {
             pane1.setVisible(true);
             pane2.setVisible(false);
@@ -156,5 +162,12 @@ public class Navigator {
         if (!state.isShowing()) {
             state.show();
         }
+    }
+
+    public int random(int number)
+    {
+        Random random = new Random();
+        int randomID = random.nextInt(number)+10000;
+        return randomID;
     }
 }
