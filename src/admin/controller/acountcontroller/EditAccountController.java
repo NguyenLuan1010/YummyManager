@@ -53,13 +53,36 @@ public class EditAccountController implements Initializable {
 
     @FXML
     void onClickSubmit(ActionEvent event) throws IOException {
-        boolean resultUpdate = AccountDBHelper.EditAccount(txtName.getText(), txtEmail.getText(), txtPassword.getText(),
-                cbType.getValue(), cbStatus.getValue(), Account.getId());
-        if (resultUpdate) {
-            Navigator.getInstance().showAlert(AlertType.INFORMATION, "Edit acc Completed");
-            Navigator.getInstance().goToAccountHome();
-        } else {
-            Navigator.getInstance().showAlert(AlertType.ERROR, "Edit acc failed");
+        boolean checkEmail = AccountDBHelper.checkEmailRegex(txtEmail.getText());
+        boolean checkPass = AccountDBHelper.checkPasswordRegex(txtPassword.getText());
+        int resultCheck = 0;
+        if (!checkEmail) {
+            resultCheck = 1;
+        } else if (!checkPass) {
+            resultCheck = 2;
+        } else if (txtEmail.getText().isEmpty() || txtPassword.getText().isEmpty()) {
+            resultCheck = 3;
+        } else if (resultCheck == 0) {
+            boolean resultUpdate = AccountDBHelper.EditAccount(txtName.getText(), txtEmail.getText(),
+                    txtPassword.getText(),
+                    cbType.getValue(), cbStatus.getValue(), Account.getId());
+            if (resultUpdate) {
+                Navigator.getInstance().showAlert(AlertType.INFORMATION, "Edit acc Completed");
+                Navigator.getInstance().goToAccountHome();
+            } else {
+                Navigator.getInstance().showAlert(AlertType.ERROR, "Edit acc failed");
+            }
+        }
+
+        if (resultCheck == 1) {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid email");
+            txtEmail.setText(Account.getEmail());
+        } else if (resultCheck == 2) {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid password");
+            txtPassword.setText(Account.getPassword());
+        } else if (resultCheck == 3) {
+            Navigator.getInstance().showAlert(AlertType.ERROR,
+                    "Password and email cannot be blank");
         }
     }
 

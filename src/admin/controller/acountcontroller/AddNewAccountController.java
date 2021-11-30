@@ -1,4 +1,5 @@
 package admin.controller.acountcontroller;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,7 +14,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class AddNewAccountController implements Initializable{
+public class AddNewAccountController implements Initializable {
 
     @FXML
     private Button btnSubmit;
@@ -39,17 +40,39 @@ public class AddNewAccountController implements Initializable{
         cbType.getItems().add("Admin");
         cbType.getItems().add("Employee");
         cbType.setValue("Employee");
-        
+
     }
+
     @FXML
     void onClickSubmit(ActionEvent event) throws IOException {
-        String IdAcc =  "#"+String.valueOf(Navigator.getInstance().random(10000));
-        boolean resultUpdate = AccountDBHelper.addNewAccount(IdAcc,txtName.getText(), txtEmail.getText(), txtPassword.getText(), cbType.getValue());
-        if (resultUpdate) {
-            Navigator.getInstance().showAlert(AlertType.INFORMATION, "Add new acc Completed");
-            Navigator.getInstance().goToAccountHome();
-        }else{
-            Navigator.getInstance().showAlert(AlertType.ERROR, "Add new acc failed");
+        boolean checkEmail = AccountDBHelper.checkEmailRegex(txtEmail.getText());
+        boolean checkPass = AccountDBHelper.checkPasswordRegex(txtPassword.getText());
+        int resultCheck = 0;
+        if (txtEmail.getText().isEmpty() || txtPassword.getText().isEmpty() || txtName.getText().isEmpty()) {
+            resultCheck = 1;
+        } else if (!checkEmail) {
+            resultCheck = 2;
+        } else if (!checkPass) {
+            resultCheck = 3;
+        } else if (resultCheck == 0) {
+            String IdAcc = "#" + String.valueOf(Navigator.getInstance().random(10000));
+            boolean resultUpdate = AccountDBHelper.addNewAccount(IdAcc, txtName.getText(), txtEmail.getText(),
+                    txtPassword.getText(), cbType.getValue());
+            if (resultUpdate) {
+                Navigator.getInstance().showAlert(AlertType.INFORMATION, "Add new acc Completed");
+                Navigator.getInstance().goToAccountHome();
+            } else {
+                Navigator.getInstance().showAlert(AlertType.ERROR, "Add new acc failed");
+            }
+        }
+
+        if (resultCheck == 2) {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid email");
+        } else if (resultCheck == 3) {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid password");
+        } else if (resultCheck == 1) {
+            Navigator.getInstance().showAlert(AlertType.ERROR,
+                    "Password , email or username cannot be blank");
         }
     }
 

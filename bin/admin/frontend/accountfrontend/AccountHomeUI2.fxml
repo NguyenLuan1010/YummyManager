@@ -122,9 +122,9 @@
             <StackPane fx:id="contentArea" layoutX="37.0" layoutY="46.0" prefHeight="634.0" prefWidth="448.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="46.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneSearchTranslate" layoutX="332.0" prefHeight="77.0" prefWidth="689.0" style="-fx-background-color: #81cca3;">
+      <AnchorPane fx:id="paneSearchTranslate" layoutX="332.0" prefHeight="77.0" prefWidth="689.0" style="-fx-background-color: #81cca3; -fx-background-radius: 20px;">
          <children>
-            <TextField fx:id="txtSearch" layoutX="113.0" layoutY="14.0" prefHeight="43.0" prefWidth="435.0" style="-fx-background-color: transparent; -fx-border-color: #052614; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-text-fill: #052614;">
+            <TextField fx:id="txtSearch" layoutX="69.0" layoutY="14.0" prefHeight="45.0" prefWidth="479.0" style="-fx-background-color: transparent; -fx-border-color: #052614; -fx-border-width: 3; -fx-border-style: hidden hidden solid hidden; -fx-text-fill: #052614;">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -132,12 +132,12 @@
                   <Font size="18.0" />
                </font>
             </TextField>
-            <ImageView fitHeight="41.0" fitWidth="49.0" layoutX="548.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="41.0" fitWidth="49.0" layoutX="548.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="570.0">
                <image>
                   <Image url="@../../image/261087606_621543155561098_3674203620595281108_n.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnTopSearch" layoutX="547.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickTopSearch" prefHeight="48.0" prefWidth="43.0" style="-fx-background-color: transparent;">
+            <Button fx:id="btnTopSearch" layoutX="547.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickTopSearch" prefHeight="48.0" prefWidth="43.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="570.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

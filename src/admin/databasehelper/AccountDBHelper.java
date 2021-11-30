@@ -63,14 +63,13 @@ public class AccountDBHelper {
         return listAcc;
     }
 
-
-
     public static boolean addNewAccount(String AccID, String Name, String Email, String Pass, String Type) {
-        String query = "INSERT INTO `tblaccount`(  `ACCOUNTID`, `NAME`, `EMAIL`, `PASSWORD`, `TYPE`) VALUES (?,?,?,?,?)";
+        // String query = "INSERT INTO `tblaccount`( `ACCOUNTID`, `NAME`, `EMAIL`,
+        // `PASSWORD`, `TYPE`) VALUES (?,?,?,?,?)";
 
         try (
                 Connection cnn = ConnectDBHelper.getConnect();
-                PreparedStatement stm = cnn.prepareStatement(query);) {
+                CallableStatement stm = cnn.prepareCall("{CALL AddNewAccount(?,?,?,?,?)}");) {
             stm.setString(1, AccID);
             stm.setString(2, Name);
             stm.setString(3, Email);
@@ -90,16 +89,14 @@ public class AccountDBHelper {
         return false;
     }
 
-    public static boolean EditAccount (String name, String email, String pass, String type, String status, String idAcc)
-    {
-        String query = "UPDATE `tblaccount` SET `NAME`= ? ,`EMAIL`= ? ,`PASSWORD`= ?,`TYPE`= ? ,`STATUS`= ? WHERE `ACCOUNTID` = ? ";
-        
-        try 
-        (
-            Connection snn = ConnectDBHelper.getConnect();
-            PreparedStatement stm = snn.prepareStatement(query);
-        )
-        {
+    public static boolean EditAccount(String name, String email, String pass, String type, String status,
+            String idAcc) {
+        // String query = "UPDATE `tblaccount` SET `NAME`= ? ,`EMAIL`= ? ,`PASSWORD`=
+        // ?,`TYPE`= ? ,`STATUS`= ? WHERE `ACCOUNTID` = ? ";
+
+        try (
+                Connection snn = ConnectDBHelper.getConnect();
+                CallableStatement stm = snn.prepareCall("{CALL EditAccount(?,?,?,?,?,?)}");) {
             stm.setString(1, name);
             stm.setString(2, email);
             stm.setString(3, pass);
@@ -108,16 +105,81 @@ public class AccountDBHelper {
             stm.setString(6, idAcc);
 
             int resultUpdate = stm.executeUpdate();
-            if(resultUpdate > 0)
-            {
+            if (resultUpdate > 0) {
                 return true;
             }
         } catch (Exception e) {
         }
-    return false;
+        return false;
     }
 
+    //
 
+    public static List<Account> searchAccount(String input) {
+        List<Account> listAcc = new ArrayList<>();
+        String query = "";
+        int Existed = 0;
+        for (int i = 0; i < input.length(); i++) {
+            Existed = input.indexOf("@");
+        }
+
+        if (Existed != -1) {
+            query = "SELECT * FROM `tblaccount` WHERE `EMAIL` like " + "'%" + input + "%'";
+        } else if (input.trim().startsWith("#")) {
+            query = "SELECT * FROM `tblaccount` WHERE `ACCOUNTID` like " + "'%" + input + "%'";
+        } else {
+            query = "SELECT * FROM `tblaccount` WHERE `NAME` like  " + "'%" + input + "%'";
+            // query = "{CALL searchByNameAcc("+ input +")}";
+
+        }
+
+        try (Connection connect = ConnectDBHelper.getConnect();
+                PreparedStatement stm = connect.prepareStatement(query);) {
+            stm.execute();
+            ResultSet rs = stm.getResultSet();
+            while (rs.next()) {
+                String id = rs.getString("ACCOUNTID");
+                String username = rs.getString("NAME");
+                String email = rs.getString("EMAIL");
+                String password = rs.getString("PASSWORD");
+                String type = rs.getString("TYPE");
+                String status = rs.getString("STATUS");
+
+                Account acc = new Account(id, username, email, password, type, status);
+
+                listAcc.add(acc);
+            }
+        } catch (Exception e) {
+            System.out.println("Loi:" + e.getMessage());
+        }
+
+        return listAcc;
+    }
+
+    //
+
+    public static boolean DeleteAccount ( String ID )
+    {
+        String query = "{CALL deleteAccByID(?)}";
+        try(
+            Connection cnn = ConnectDBHelper.getConnect();
+            CallableStatement stm = cnn.prepareCall(query);      
+        ) 
+        {
+            stm.setString(1, ID);
+            
+            int resultUpdate = stm.executeUpdate();
+            if(resultUpdate > 0)
+            {
+                return true;
+            }
+            
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    //
     public static Boolean checkEmailRegex(String email) {
         String regex = "[a-zA-Z0-9_\\.]{3,20}@[a-zA-Z0-9]{3,10}\\.[a-zA-Z0-9]{2,5}";
         Pattern pattern = Pattern.compile(regex);
@@ -173,58 +235,55 @@ public class AccountDBHelper {
         }
     }
 
-   
- 
-   
-  //Create the ramdom string.
-  public static String randomString(){
-    String characters = "abcdefghijklmnopqrstuvwmxyzABCDEFGHIJKLMNOPQRSTUVWMXYZ1234567890";
-    String randomString ="";
-    int length = 7;
-    Random random = new Random();
-    char[] text = new char[length];
-    for(int i = 0; i < length ; i++){
-       text[i] = characters.charAt(random.nextInt(characters.length()));
+    // Create the ramdom string.
+    public static String randomString() {
+        String characters = "abcdefghijklmnopqrstuvwmxyzABCDEFGHIJKLMNOPQRSTUVWMXYZ1234567890";
+        String randomString = "";
+        int length = 7;
+        Random random = new Random();
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
+            text[i] = characters.charAt(random.nextInt(characters.length()));
+        }
+        for (int i = 0; i < text.length; i++) {
+            randomString += text[i];
+        }
+        System.out.print(randomString);
+        return randomString;
     }
-    for(int i = 0 ; i < text.length ; i++){
-     randomString += text[i];
-    }
-    System.out.print(randomString);
-    return randomString;
- }
-    public static void sendMail(String toEmail) throws MessagingException {
-      String usermail = "vanluanthcs.com@gmail.com";
-      String password = "nguyenvanluan";
-      String OTP = randomString();
-      Properties properties = new Properties();
-      properties.put("mail.smtp.auth", "true");
-      properties.put("mail.smtp.host","smtp.gmail.com");
-      properties.put("mail.smtp.port", "587");
-      properties.put("mail.smtp.starttls.enable","true");
-      
-      Session session = Session.getInstance(properties , new Authenticator() {
-      
-      @Override
-     protected PasswordAuthentication getPasswordAuthentication(){
-      return new PasswordAuthentication(usermail,password);
-     }
-      });
-     Message message = new MimeMessage(session);
-      message.setSubject("Email from luan");
-      
-      Address addressTo = new InternetAddress(toEmail);
-      message.setSubject("We are Venom");
-      message.setRecipient(Message.RecipientType.TO, addressTo);
-      MimeMultipart multipart = new MimeMultipart();
-     
-      MimeBodyPart messageBodyPart= new MimeBodyPart();
-      messageBodyPart.setContent("<h1>"+OTP+"</h1>","text/html");
-      multipart.addBodyPart(messageBodyPart);
-      message.setContent(multipart);
-      
-      Transport.send(message);
-      System.out.print("DONE");
-     }
 
+    public static void sendMail(String toEmail) throws MessagingException {
+        String usermail = "vanluanthcs.com@gmail.com";
+        String password = "nguyenvanluan";
+        String OTP = randomString();
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(usermail, password);
+            }
+        });
+        Message message = new MimeMessage(session);
+        message.setSubject("Email from luan");
+
+        Address addressTo = new InternetAddress(toEmail);
+        message.setSubject("We are Venom");
+        message.setRecipient(Message.RecipientType.TO, addressTo);
+        MimeMultipart multipart = new MimeMultipart();
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent("<h1>" + OTP + "</h1>", "text/html");
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);
+
+        Transport.send(message);
+        System.out.print("DONE");
+    }
 
 }

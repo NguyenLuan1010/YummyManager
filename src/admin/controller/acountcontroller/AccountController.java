@@ -2,6 +2,7 @@ package admin.controller.acountcontroller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import admin.databasehelper.AccountDBHelper;
@@ -13,7 +14,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -106,6 +109,7 @@ public class AccountController implements Initializable {
         paneSearchTranslate.setTranslateY(-300);
 
         Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
+
         getAllAccount();
 
     }
@@ -123,7 +127,7 @@ public class AccountController implements Initializable {
     @FXML
     void onClickEdit(ActionEvent event) {
         Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
-        
+
     }
 
     @FXML
@@ -139,7 +143,7 @@ public class AccountController implements Initializable {
             EditAccountController.Account = Acc;
             Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
             Navigator.getInstance().changePage(contentArea, "../frontend/accountfrontend/EditAccount.fxml");
-        }else{
+        } else {
             Navigator.getInstance().showAlert(AlertType.ERROR, "Choose a Account to edit");
         }
 
@@ -147,17 +151,29 @@ public class AccountController implements Initializable {
 
     @FXML
     void onClickMainSearch(ActionEvent event) {
-        Navigator.getInstance().translateSideYBarPlus(paneSlide1, paneSlide2, paneSearchTranslate,0, -300);
+        Navigator.getInstance().translateSideYBarPlus(paneSlide1, paneSlide2, paneSearchTranslate, 0, -300);
+
+        txtSearch.textProperty().addListener((ObservableList, oldValue, newValue) -> {
+            ObservableList<Account> listAcc = FXCollections
+                    .observableArrayList(AccountDBHelper.searchAccount(txtSearch.getText()));
+            tblAccount.setItems(listAcc);
+            tcAccountID.setCellValueFactory(CellData -> CellData.getValue().getIdProperty());
+            tcEmail.setCellValueFactory(CellData -> CellData.getValue().getEmailProperty());
+            tcName.setCellValueFactory(CellData -> CellData.getValue().getUserNameProperty());
+            tcPassword.setCellValueFactory(CellData -> CellData.getValue().getPasswordProperty());
+            tcStatus.setCellValueFactory(CellData -> CellData.getValue().getStatusProperty());
+            tcType.setCellValueFactory(CellData -> CellData.getValue().getTypeProperty());
+        });
     }
 
     @FXML
     void onClickSearch(ActionEvent event) {
-        Navigator.getInstance().translateSideYBarMinus(paneSlide1,paneSlide2, paneSearchTranslate,-300,0);
+        Navigator.getInstance().translateSideYBarMinus(paneSlide1, paneSlide2, paneSearchTranslate, -300, 0);
     }
 
     @FXML
     void onClickTableView(MouseEvent event) {
-        Navigator.getInstance().translateSideYBarMinus(paneSlide1,paneSlide2, paneSearchTranslate,-300,0);
+        Navigator.getInstance().translateSideYBarMinus(paneSlide1, paneSlide2, paneSearchTranslate, -300, 0);
     }
 
     @FXML
@@ -172,9 +188,29 @@ public class AccountController implements Initializable {
 
     @FXML
 
-    void onClickMainDelete(ActionEvent event) {
+    void onClickMainDelete(ActionEvent event) throws IOException {
+        Account Acc = tblAccount.getSelectionModel().getSelectedItem();
+        if (Acc != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Delete Acc");
+            alert.setHeaderText("Confirm");
+            alert.setContentText("Are you sure wnat to delete ' " + Acc.getId() + " ' account ");
 
+            // option != null.
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.get() == ButtonType.OK) {
+                AccountDBHelper.DeleteAccount(Acc.getId());
+                Navigator.getInstance().goToAccountHome();
+            } else if (option.get() == ButtonType.CANCEL) {
+                Navigator.getInstance().goToAccountHome();
+            }
+
+        } else {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Choose a Account to edit");
+        }
     }
+
     private void getAllAccount() {
         ObservableList<Account> listAcc = FXCollections.observableArrayList(AccountDBHelper.getAllAccount());
         tblAccount.setItems(listAcc);
@@ -185,8 +221,6 @@ public class AccountController implements Initializable {
         tcStatus.setCellValueFactory(CellData -> CellData.getValue().getStatusProperty());
         tcType.setCellValueFactory(CellData -> CellData.getValue().getTypeProperty());
 
-
     }
-
 
 }
