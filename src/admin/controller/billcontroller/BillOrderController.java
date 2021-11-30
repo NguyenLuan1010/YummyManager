@@ -128,7 +128,7 @@ public class BillOrderController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 BillPayment_Controller.billPay = tblBillOrder.getSelectionModel().getSelectedItem();
-                Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate);
+                Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate,0,-600);
                 Navigator.getInstance().changePage(bill, "../frontend/BillPayment.fxml");
             }
         });

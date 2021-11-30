@@ -65,9 +65,6 @@ public class AccountController implements Initializable {
     private Button btnBack;
 
     @FXML
-    private Button btnMessage;
-
-    @FXML
     private Pane paneSlide1;
 
     @FXML
@@ -83,11 +80,23 @@ public class AccountController implements Initializable {
     private Button btnBack1;
 
     @FXML
-    private Button btnMainMessage;
+    private AnchorPane paneSearchTranslate;
+
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private Button btnTopSearch;
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnMainDelete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        paneSearchTranslate.setTranslateY(-300);
     }
 
     @FXML
@@ -116,27 +125,34 @@ public class AccountController implements Initializable {
     }
 
     @FXML
-    void onClickMainMessage(ActionEvent event) {
-
-    }
-
-    @FXML
     void onClickMainSearch(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickMessage(ActionEvent event) {
-
+        Navigator.getInstance().translateSideYBarPlus(paneSlide1, paneSlide2, paneSearchTranslate,0, -300);
     }
 
     @FXML
     void onClickSearch(ActionEvent event) {
-
+        Navigator.getInstance().translateSideYBarMinus(paneSlide1,paneSlide2, paneSearchTranslate,-300,0);
     }
 
     @FXML
     void onClickTableView(MouseEvent event) {
+        Navigator.getInstance().translateSideYBarMinus(paneSlide1,paneSlide2, paneSearchTranslate,-300,0);
+    }
+
+    @FXML
+    void onClickTopSearch(ActionEvent event) {
 
     }
+
+    @FXML
+    void onClickDelete(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onClickMainDelete(ActionEvent event) {
+
+    }
+
+
 }
