@@ -180,6 +180,16 @@ public class AccountDBHelper {
     }
 
     //
+
+    public static boolean checkEmailAlreadyExist(Account Acc) {
+        // for (Acc : ) {
+            
+        // }
+
+        return false;
+    }
+
+    //
     public static Boolean checkEmailRegex(String email) {
         String regex = "[a-zA-Z0-9_\\.]{3,20}@[a-zA-Z0-9]{3,10}\\.[a-zA-Z0-9]{2,5}";
         Pattern pattern = Pattern.compile(regex);

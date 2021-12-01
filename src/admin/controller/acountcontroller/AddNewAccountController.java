@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 
 import admin.databasehelper.AccountDBHelper;
 import admin.frontend.Navigator;
+import admin.model.Account;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,10 +48,23 @@ public class AddNewAccountController implements Initializable {
 
     @FXML
     void onClickSubmit(ActionEvent event) throws IOException {
+        ObservableList<Account> listAcc = FXCollections.observableArrayList(AccountDBHelper.getAllAccount());
+
         boolean checkEmail = AccountDBHelper.checkEmailRegex(txtEmail.getText());
         boolean checkPass = AccountDBHelper.checkPasswordRegex(txtPassword.getText());
         int resultCheck = 0;
-        if (txtEmail.getText().isEmpty() || txtPassword.getText().isEmpty() || txtName.getText().isEmpty()) {
+        boolean checked = false;
+
+        // Check email exists
+        for (Account AlreadyExists : listAcc) {
+            if (AlreadyExists.getEmail().equals(txtEmail.getText())) {
+                resultCheck = 4;
+            }
+        }
+
+        // Check inout regex
+        if (txtEmail.getText().isEmpty() || txtPassword.getText().isEmpty() ||
+                txtName.getText().isEmpty()) {
             resultCheck = 1;
         } else if (!checkEmail) {
             resultCheck = 2;
@@ -56,13 +72,28 @@ public class AddNewAccountController implements Initializable {
             resultCheck = 3;
         } else if (resultCheck == 0) {
             String IdAcc = "#" + String.valueOf(Navigator.getInstance().random(10000));
-            boolean resultUpdate = AccountDBHelper.addNewAccount(IdAcc, txtName.getText(), txtEmail.getText(),
-                    txtPassword.getText(), cbType.getValue());
-            if (resultUpdate) {
-                Navigator.getInstance().showAlert(AlertType.INFORMATION, "Add new acc Completed");
-                Navigator.getInstance().goToAccountHome();
-            } else {
-                Navigator.getInstance().showAlert(AlertType.ERROR, "Add new acc failed");
+            // Check ID Already exists
+            loop: for (Account checkIDAlreadyExists : listAcc) {
+                if (checkIDAlreadyExists.getId().equals(IdAcc)) {
+                    IdAcc = "#" + String.valueOf(Navigator.getInstance().random(10000));
+                    continue loop;
+                } else {
+                    checked = true;
+                    break loop;
+                }
+            }
+
+            if (checked) {
+                boolean resultUpdate = AccountDBHelper.addNewAccount(IdAcc,
+                        txtName.getText(), txtEmail.getText(),
+                        txtPassword.getText(), cbType.getValue());
+                if (resultUpdate) {
+                    Navigator.getInstance().showAlert(AlertType.INFORMATION,
+                            "Add new acc Completed");
+                    Navigator.getInstance().goToAccountHome();
+                } else {
+                    Navigator.getInstance().showAlert(AlertType.ERROR, "Add new acc failed");
+                }
             }
         }
 
@@ -73,7 +104,11 @@ public class AddNewAccountController implements Initializable {
         } else if (resultCheck == 1) {
             Navigator.getInstance().showAlert(AlertType.ERROR,
                     "Password , email or username cannot be blank");
+        } else if (resultCheck == 4) {
+            Navigator.getInstance().showAlert(AlertType.ERROR,
+                    "Email account already exists");
         }
+
     }
 
 }

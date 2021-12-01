@@ -151,7 +151,7 @@ public class AccountController implements Initializable {
 
     @FXML
     void onClickMainSearch(ActionEvent event) {
-        Navigator.getInstance().translateSideYBarPlus(paneSlide1, paneSlide2, paneSearchTranslate, 0, -300);
+        Navigator.getInstance().translateSideYBarPlus(paneSlide1, paneSlide2, paneSearchTranslate, 0, -350);
 
         txtSearch.textProperty().addListener((ObservableList, oldValue, newValue) -> {
             ObservableList<Account> listAcc = FXCollections
