@@ -117,7 +117,6 @@ public class AccountDBHelper {
         }
         return false;
     }
-
     public static List<Account> searchAccount(String input) {
         List<Account> listAcc = new ArrayList<>();
         String query = "";
@@ -178,6 +177,7 @@ public class AccountDBHelper {
         } catch (Exception e) {
         }
         return false;
+
     }
 
     public static String randomString() {
@@ -220,8 +220,21 @@ public class AccountDBHelper {
             }
         }
         return null;
+
     }
 
+    //
+
+    public static boolean checkEmailAlreadyExist(Account Acc) {
+        // for (Acc : ) {
+            
+        // }
+
+        return false;
+
+    }
+
+    //
     public static Boolean checkEmailRegex(String email) {
         String regex = "[a-zA-Z0-9_\\.]{3,20}@[a-zA-Z0-9]{3,10}\\.[a-zA-Z0-9]{2,5}";
         Pattern pattern = Pattern.compile(regex);
@@ -272,6 +285,7 @@ public class AccountDBHelper {
             }
         }
     }
+
 
     public static void updatePassword(String email) {
         RandomGenerator passwordGenerator = new RandomGenerator.PasswordGeneratorBuilder()

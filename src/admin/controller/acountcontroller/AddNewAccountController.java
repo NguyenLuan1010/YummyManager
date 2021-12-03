@@ -1,4 +1,5 @@
 package admin.controller.acountcontroller;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -99,6 +100,22 @@ public class AddNewAccountController implements Initializable {
                 }
             }
         }
+
+        
+
+        if (resultCheck == 2) {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid email");
+        } else if (resultCheck == 3) {
+            Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid password");
+        } else if (resultCheck == 1) {
+            Navigator.getInstance().showAlert(AlertType.ERROR,
+                    "Password , email or username cannot be blank");
+        } else if (resultCheck == 4) {
+            Navigator.getInstance().showAlert(AlertType.ERROR,
+                    "Email account already exists");
+        }
+
+    
 
         if (resultCheck == 2) {
             Navigator.getInstance().showAlert(AlertType.ERROR, "Invalid email");

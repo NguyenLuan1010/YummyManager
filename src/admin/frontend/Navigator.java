@@ -32,6 +32,11 @@ public class Navigator {
     private static final String ADMINHOME = "AdminHomeUI2.fxml";
     private static final String ACCOUNT_HOME = "accountfrontend/AccountHomeUI2.fxml";
 
+    private static final String CONFIRM_EMAIL = "loginfrontend/confirmEmail.fxml";
+
+    public static final String SCENE_ITEMS = "foodfrontend/FoodItemUI.fxml";
+
+
     public Navigator() {
 
     }
@@ -68,14 +73,19 @@ public class Navigator {
     }
 
     public void goToAdminHome2() throws IOException {
-        goToScene("AddNewTable", ADMINHOME);
+        goToScene("Admin Home", ADMINHOME);
     }
 
     public void goToAccountHome() throws IOException {
         goToScene("AcountHome", ACCOUNT_HOME);
     }
 
-   
+
+    public void goToConfirmEmail() throws IOException {
+        goToScene("Confirm Email", CONFIRM_EMAIL);
+    }
+
+
     // Change page on a Scene
     public void changePage(StackPane contentArea, String source) {
         try {
@@ -129,7 +139,7 @@ public class Navigator {
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.seconds(0.5));
         translateTransition.setNode(paneTranslate);
-        translateTransition.setToY(ToX);
+        translateTransition.setToY(ToX);/* 0 */
         translateTransition.play();
         paneTranslate.setTranslateY(TranX);
         translateTransition.setOnFinished(event -> {
@@ -166,6 +176,7 @@ public class Navigator {
         state.show();
     }
 
+
     public void newPane(String URL) throws IOException{
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource(URL));
         Stage stage = new Stage();
@@ -181,6 +192,7 @@ public class Navigator {
         stage.setResizable(false);
         return scene;
     }
+
     public int random(int number) {
         Random random = new Random();
         int randomID = random.nextInt(number) + 10000;

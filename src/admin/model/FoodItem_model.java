@@ -33,6 +33,8 @@ public class FoodItem_model {
 
     public void setPriceFood(double priceFood) {
         PriceFood = priceFood;
-    }
-    
+    }   
 }
+
+
+

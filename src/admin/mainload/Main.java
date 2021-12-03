@@ -20,6 +20,6 @@ public class Main  extends Application{
     public void start(Stage stage) throws IOException {
         stage.initStyle(StageStyle.TRANSPARENT);
         Navigator.getInstance().setState(stage);
-        Navigator.getInstance().goToLOGIN();
+        Navigator.getInstance().goToAccountHome();
     } 
 }
