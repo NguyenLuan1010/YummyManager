@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import admin.databasehelper.AccountDBHelper;
 import admin.frontend.Navigator;
 import admin.model.Account;
-import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -120,8 +119,8 @@ public class AccountController implements Initializable {
     }
 
     @FXML
-    void onClickBack(ActionEvent event) {
-
+    void onClickBack(ActionEvent event) throws IOException {
+        Navigator.getInstance().goToAdminHome2();
     }
 
     @FXML

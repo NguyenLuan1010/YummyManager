@@ -23,7 +23,6 @@ public class Navigator {
     private FXMLLoader fxmlloader;
     private static final String LOG_IN = "loginfrontend/LogInUI.fxml";
 
-
     private static final String BILL_ORDER = "billfrontend/BillOrderUI2.fxml";
     private static final String FOOD_MENU = "foodfrontend/FoodMenuUI.fxml";
     private static final String SALE_DETAILS = "salefrontend/SaleDetailsUI.fxml";
@@ -32,6 +31,10 @@ public class Navigator {
     private static final String ADMINHOME = "AdminHomeUI2.fxml";
     private static final String ACCOUNT_HOME = "accountfrontend/AccountHomeUI2.fxml";
     private static final String CONFIRM_EMAIL = "loginfrontend/confirmEmail.fxml";
+
+    public static final String SCENE_ITEMS = "foodfrontend/FoodItemUI.fxml";
+
+
     public Navigator() {
 
     }
@@ -51,7 +54,6 @@ public class Navigator {
         goToScene("Log In", LOG_IN);
     }
 
-
     public void goToBillOrder() throws IOException {
         goToScene("Bill", BILL_ORDER);
     }
@@ -67,16 +69,19 @@ public class Navigator {
     public void goToTableMap() throws IOException {
         goToScene("Table", TABLE_MAP);
     }
+
     public void goToAdminHome2() throws IOException {
-        goToScene("AddNewTable", ADMINHOME);
+        goToScene("Admin Home", ADMINHOME);
     }
+
     public void goToAccountHome() throws IOException {
         goToScene("AcountHome", ACCOUNT_HOME);
     }
+
     public void goToConfirmEmail() throws IOException {
         goToScene("Confirm Email", CONFIRM_EMAIL);
     }
-    
+
     // Change page on a Scene
     public void changePage(StackPane contentArea, String source) {
         try {
@@ -96,7 +101,6 @@ public class Navigator {
         alert.showAndWait();
     }
 
-
     public void translateSideBarPlus(Pane pane1, Pane pane2, AnchorPane paneTranslate, int ToX, int TranX) {
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.seconds(0.5));
@@ -111,26 +115,26 @@ public class Navigator {
         });
     }
 
-
-    //Minus Translate X
-    public void translateSideBarMinus(Pane pane1, Pane pane2, AnchorPane paneTranslate,int ToX, int TranX) {
+    // Minus Translate X
+    public void translateSideBarMinus(Pane pane1, Pane pane2, AnchorPane paneTranslate, int ToX, int TranX) {
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.seconds(0.3));
         translateTransition.setNode(paneTranslate);
         translateTransition.setToX(ToX);/*-770*/
         translateTransition.play();
-        paneTranslate.setTranslateX(TranX);/*0*/
+        paneTranslate.setTranslateX(TranX);/* 0 */
         translateTransition.setOnFinished(event -> {
             pane1.setVisible(true);
             pane2.setVisible(false);
         });
     }
-    //Plus Translate Y
-    public void translateSideYBarPlus(Pane pane1, Pane pane2, AnchorPane paneTranslate,int ToX, int TranX) {
+
+    // Plus Translate Y
+    public void translateSideYBarPlus(Pane pane1, Pane pane2, AnchorPane paneTranslate, int ToX, int TranX) {
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.seconds(0.5));
         translateTransition.setNode(paneTranslate);
-        translateTransition.setToY(ToX);/*0*/
+        translateTransition.setToY(ToX);/* 0 */
         translateTransition.play();
         paneTranslate.setTranslateY(TranX);/*-600*/
         translateTransition.setOnFinished(event -> {
@@ -138,8 +142,9 @@ public class Navigator {
             pane2.setVisible(true);
         });
     }
-    //Minus Translate Y
-    public void translateSideYBarMinus(Pane pane1, Pane pane2, AnchorPane paneTranslate,int ToY, int TranY) {
+
+    // Minus Translate Y
+    public void translateSideYBarMinus(Pane pane1, Pane pane2, AnchorPane paneTranslate, int ToY, int TranY) {
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.seconds(0.5));
         translateTransition.setNode(paneTranslate);
@@ -151,6 +156,7 @@ public class Navigator {
             pane2.setVisible(false);
         });
     }
+
     // Function for change page.
     public void goToScene(String title, String URL) throws IOException {
         fxmlloader = new FXMLLoader(getClass().getResource(URL));
@@ -164,10 +170,9 @@ public class Navigator {
         }
     }
 
-    public int random(int number)
-    {
+    public int random(int number) {
         Random random = new Random();
-        int randomID = random.nextInt(number)+10000;
+        int randomID = random.nextInt(number) + 10000;
         return randomID;
     }
 }

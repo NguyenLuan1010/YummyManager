@@ -2,10 +2,10 @@
 -- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 06:37 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th12 03, 2021 lúc 03:50 AM
+-- Phiên bản máy phục vụ: 10.4.18-MariaDB
+-- Phiên bản PHP: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,19 +18,31 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yummymanager`
+-- Cơ sở dữ liệu: `yummymanager`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Thủ tục
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddNewAccount` (IN `AccID` CHAR(50), IN `UserName` CHAR(50), IN `Email` CHAR(50), IN `Pass` CHAR(50), IN `Type` CHAR(50))  BEGIN
+INSERT INTO `tblaccount`(  `ACCOUNTID`, `NAME`, `EMAIL`, `PASSWORD`, `TYPE`) VALUES (AccID,UserName,Email,Pass,`Type`);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewTable` (IN `tableID` TEXT, IN `tableName` TEXT, IN `seatsNumber` INT, IN `floorsNumber` INT, IN `tableStatus` TEXT)  BEGIN
 	INSERT INTO  tbltablemap (TABLEID,TABLENAME,SEATSNUMBER,FLOORNUMBER,TABLESTATUS) VALUES (tableID,tableName,seatsNumber,floorsNumber,tableStatus);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkDataUser` (IN `phoneNumber` TEXT, IN `passwordHash` TEXT)  BEGIN
      SELECT * FROM tblaccount WHERE PHONENUMBER = phoneNUmber AND PASSWORD = passwordHash;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteAccByID` (IN `IDAcc` CHAR(50))  BEGIN
+DELETE FROM `tblaccount` WHERE `ACCOUNTID` =  IDAcc;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditAccount` (IN `userName` CHAR(50), IN `email` CHAR(50), IN `pass` CHAR(50), IN `type` CHAR(50), IN `status` CHAR(50), IN `idAcc` CHAR(50))  BEGIN
+UPDATE `tblaccount` SET `NAME`= `userName` ,`EMAIL`= email ,`PASSWORD`= pass,`TYPE`= `type` ,`STATUS`= `status` WHERE `ACCOUNTID` = idAcc ;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `filterDate` (IN `DateStart` CHAR(50), IN `DateEnd` CHAR(50))  BEGIN
@@ -49,12 +61,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getDataForBill` (IN `BillID` CHAR(5
 SELECT c.DETAILBILLID , a.FOODNAME,SUM(b.FOODQUANTITY) AS FOODQUANTITY,a.FOODPRICE,c.SUMOFPRICE from tblfoodmenu a JOIN tbldetailbill b on a.FOODID=b.FOODID JOIN tblbill c ON c.DETAILBILLID = b.DETAILBILLID WHERE c.DETAILBILLID = BillID GROUP BY a.FOODNAME;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `searchByNameAcc` (IN `inputSQL` CHAR(50))  BEGIN
+	SELECT * FROM `tblaccount` WHERE `NAME` LIKE  ''%'+inputSQL+'%'';
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblaccount`
+-- Cấu trúc bảng cho bảng `tblaccount`
 --
 
 CREATE TABLE `tblaccount` (
@@ -67,23 +83,20 @@ CREATE TABLE `tblaccount` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tblaccount`
+-- Đang đổ dữ liệu cho bảng `tblaccount`
 --
 
 INSERT INTO `tblaccount` (`ACCOUNTID`, `NAME`, `EMAIL`, `PASSWORD`, `TYPE`, `STATUS`) VALUES
-('A01', 'Tran Dinh Nam', '0123456789', 'Ad123456789', 'admin', 'unlock'),
-('A02', 'Pham Nhu Hoang Phuc', 'ad111111', 'ad1111111', '[value-5]', '[value-6]'),
 ('A03', 'Tran DInh Nam', '', '', 'admin', 'unlock'),
-('', 'aaaaa', 'aaaaa', 'aaaaa', 'aaaaaa', 'Unlock'),
-('bbbbbbb', 'bbbbb', 'bb', 'bb', 'Admin', 'Unlock'),
-('', '', '', '', 'Employee', 'Unlock'),
-('1925', 'Tran Dinh Nam', 'aaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaa', 'Admin', 'Unlock'),
-('#3089', 'NaM', 'nam@gmail.com', 'asd', 'Admin', 'UNLOCK');
+('#3089', 'NaM', 'nam@gmail.com', 'Nam123456789', 'Admin', 'UnLock'),
+('#11736', 'Tran Dinh Nam', 'Nam@gmail.com', 'Nam123456789', 'Employee', 'Unlock'),
+('#13734', 'Tran Dinh Nam', 'Nam@gmail.com', 'Nam123456789', 'Admin', 'Unlock'),
+('#14360', 'tran dinh nam', 'NAM@gmail.com', 'Nam123456789', 'Employee', 'Unlock');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblbill`
+-- Cấu trúc bảng cho bảng `tblbill`
 --
 
 CREATE TABLE `tblbill` (
@@ -96,7 +109,7 @@ CREATE TABLE `tblbill` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tblbill`
+-- Đang đổ dữ liệu cho bảng `tblbill`
 --
 
 INSERT INTO `tblbill` (`BILLID`, `DATETIME`, `TABLEID`, `DETAILBILLID`, `SUMOFPRICE`, `BillStatus`) VALUES
@@ -107,7 +120,7 @@ INSERT INTO `tblbill` (`BILLID`, `DATETIME`, `TABLEID`, `DETAILBILLID`, `SUMOFPR
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbldetailbill`
+-- Cấu trúc bảng cho bảng `tbldetailbill`
 --
 
 CREATE TABLE `tbldetailbill` (
@@ -121,7 +134,7 @@ CREATE TABLE `tbldetailbill` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tbldetailbill`
+-- Đang đổ dữ liệu cho bảng `tbldetailbill`
 --
 
 INSERT INTO `tbldetailbill` (`DETAILBILLID`, `FOODID`, `TABLEID`, `FOODQUANTITY`, `SUMOFPRICE`, `BILLSTATUS`, `SALECODE`) VALUES
@@ -132,33 +145,47 @@ INSERT INTO `tbldetailbill` (`DETAILBILLID`, `FOODID`, `TABLEID`, `FOODQUANTITY`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblfoodmenu`
+-- Cấu trúc bảng cho bảng `tblfoodmenu`
 --
 
 CREATE TABLE `tblfoodmenu` (
   `FOODID` varchar(50) NOT NULL,
   `FOODIMAGE` text NOT NULL,
   `FOODNAME` text NOT NULL,
-  `FOODTYPE` text NOT NULL,
+  `FOODTYPEID` int(20) NOT NULL,
   `FOODMATERIAL` text NOT NULL,
   `FOODSTATUS` text NOT NULL DEFAULT 'Active',
   `FOODPRICE` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tblfoodmenu`
+-- Đang đổ dữ liệu cho bảng `tblfoodmenu`
 --
 
-INSERT INTO `tblfoodmenu` (`FOODID`, `FOODIMAGE`, `FOODNAME`, `FOODTYPE`, `FOODMATERIAL`, `FOODSTATUS`, `FOODPRICE`) VALUES
-('F01', 'Image1', 'HAMBERGER', 'Fastfood', 'beff,salat,tomato,cheese', 'Active', 30),
-('F02', 'Image2', 'Italy Noodle', 'Fastfood', 'noodle,tomato and meat source', 'Active', 20),
-('F03', 'Image3', 'Ramen', 'Fast food', 'a,b,c,d', 'Active', 50),
-('F04', 'Image4', 'KFC Chicken', 'Fast Food', 'x,y,z', 'Active', 40);
+INSERT INTO `tblfoodmenu` (`FOODID`, `FOODIMAGE`, `FOODNAME`, `FOODTYPEID`, `FOODMATERIAL`, `FOODSTATUS`, `FOODPRICE`) VALUES
+('F01', 'img5.jpg', 'Hamberger', 1, 'beff,salat,tomato,cheese', 'Active', 30),
+('F02', 'img5.jpg', 'Sprite', 1, 'abc,xyz', 'Active', 20),
+('F03', 'img5.jpg', 'Thai hot pot', 1, 'a,b,c,d', 'Active', 50),
+('F04', 'img5.jpg', 'Fruit bowl', 1, 'x,y,z', 'Active', 40),
+('F05', 'img5.jpg', 'food name', 3, 'food material', 'Active', 100),
+('F06', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F07', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F08', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F09', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F10', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F11', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F12', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F13', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F14', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F15', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F16', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F17', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100),
+('F18', 'img5.jpg', 'name food', 3, 'food material', 'Active', 100);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblsaledetail`
+-- Cấu trúc bảng cho bảng `tblsaledetail`
 --
 
 CREATE TABLE `tblsaledetail` (
@@ -171,7 +198,7 @@ CREATE TABLE `tblsaledetail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tblsaledetail`
+-- Đang đổ dữ liệu cho bảng `tblsaledetail`
 --
 
 INSERT INTO `tblsaledetail` (`SALECODE`, `DATESTART`, `DATEEND`, `DECRIPTION`, `DISCOUNT`, `SALESTATUS`) VALUES
@@ -180,7 +207,7 @@ INSERT INTO `tblsaledetail` (`SALECODE`, `DATESTART`, `DATEEND`, `DECRIPTION`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltablemap`
+-- Cấu trúc bảng cho bảng `tbltablemap`
 --
 
 CREATE TABLE `tbltablemap` (
@@ -191,19 +218,42 @@ CREATE TABLE `tbltablemap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tbltablemap`
+-- Đang đổ dữ liệu cho bảng `tbltablemap`
 --
 
 INSERT INTO `tbltablemap` (`TABLEID`, `SEATSNUMBER`, `FLOORNUMBER`, `TABLESTATUS`) VALUES
 ('T01', 4, 1, 'Active'),
 ('T02', 2, 2, 'Active');
 
+-- --------------------------------------------------------
+
 --
--- Indexes for dumped tables
+-- Cấu trúc bảng cho bảng `tbltypefood`
+--
+
+CREATE TABLE `tbltypefood` (
+  `ID` int(20) NOT NULL,
+  `TYPE` text CHARACTER SET utf8mb4 NOT NULL,
+  `STATUS` varchar(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Unlock'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbltypefood`
+--
+
+INSERT INTO `tbltypefood` (`ID`, `TYPE`, `STATUS`) VALUES
+(1, 'Main Food', 'Unlock'),
+(2, 'Drinks', 'Unlock'),
+(3, 'Hot Pot', 'Unlock'),
+(4, 'Salad', 'Unlock'),
+(5, 'Dessert', 'Unlock');
+
+--
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `tblbill`
+-- Chỉ mục cho bảng `tblbill`
 --
 ALTER TABLE `tblbill`
   ADD PRIMARY KEY (`BILLID`,`TABLEID`,`DETAILBILLID`),
@@ -211,7 +261,7 @@ ALTER TABLE `tblbill`
   ADD KEY `FK_DEATILBILLID` (`DETAILBILLID`);
 
 --
--- Indexes for table `tbldetailbill`
+-- Chỉ mục cho bảng `tbldetailbill`
 --
 ALTER TABLE `tbldetailbill`
   ADD PRIMARY KEY (`DETAILBILLID`,`FOODID`,`TABLEID`),
@@ -220,41 +270,64 @@ ALTER TABLE `tbldetailbill`
   ADD KEY `FK_SALECODE` (`SALECODE`);
 
 --
--- Indexes for table `tblfoodmenu`
+-- Chỉ mục cho bảng `tblfoodmenu`
 --
 ALTER TABLE `tblfoodmenu`
-  ADD PRIMARY KEY (`FOODID`);
+  ADD PRIMARY KEY (`FOODID`),
+  ADD KEY `FK_TYPEFOOD` (`FOODTYPEID`);
 
 --
--- Indexes for table `tblsaledetail`
+-- Chỉ mục cho bảng `tblsaledetail`
 --
 ALTER TABLE `tblsaledetail`
   ADD PRIMARY KEY (`SALECODE`);
 
 --
--- Indexes for table `tbltablemap`
+-- Chỉ mục cho bảng `tbltablemap`
 --
 ALTER TABLE `tbltablemap`
   ADD PRIMARY KEY (`TABLEID`);
 
 --
--- Constraints for dumped tables
+-- Chỉ mục cho bảng `tbltypefood`
+--
+ALTER TABLE `tbltypefood`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- Constraints for table `tblbill`
+-- AUTO_INCREMENT cho bảng `tbltypefood`
+--
+ALTER TABLE `tbltypefood`
+  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `tblbill`
 --
 ALTER TABLE `tblbill`
   ADD CONSTRAINT `FKTABLEID` FOREIGN KEY (`TABLEID`) REFERENCES `tbltablemap` (`TABLEID`),
   ADD CONSTRAINT `FK_DEATILBILLID` FOREIGN KEY (`DETAILBILLID`) REFERENCES `tbldetailbill` (`DETAILBILLID`);
 
 --
--- Constraints for table `tbldetailbill`
+-- Các ràng buộc cho bảng `tbldetailbill`
 --
 ALTER TABLE `tbldetailbill`
   ADD CONSTRAINT `FKBILLTABLEID` FOREIGN KEY (`TABLEID`) REFERENCES `tbltablemap` (`TABLEID`),
   ADD CONSTRAINT `FK_DETAIL_FOODID` FOREIGN KEY (`FOODID`) REFERENCES `tblfoodmenu` (`FOODID`),
   ADD CONSTRAINT `FK_SALECODE` FOREIGN KEY (`SALECODE`) REFERENCES `tblsaledetail` (`SALECODE`);
+
+--
+-- Các ràng buộc cho bảng `tblfoodmenu`
+--
+ALTER TABLE `tblfoodmenu`
+  ADD CONSTRAINT `FK_TYPEFOOD` FOREIGN KEY (`FOODTYPEID`) REFERENCES `tbltypefood` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

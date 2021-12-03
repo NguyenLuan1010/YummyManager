@@ -12,9 +12,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" 
-prefWidth="1026.0" style="-fx-background-color: #062115;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" 
-fx:controller="admin.controller.AdminHomeUi2Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="1026.0"
+ style="-fx-background-color: #062115;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.controller.AdminHomeUi2Controller">
    <top>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="129.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
          <children>
@@ -34,19 +33,11 @@ fx:controller="admin.controller.AdminHomeUi2Controller">
    <bottom>
       <AnchorPane prefHeight="95.0" prefWidth="1026.0" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <AnchorPane layoutX="26.0" prefHeight="56.0" prefWidth="195.0">
+            <AnchorPane prefHeight="56.0" prefWidth="195.0">
                <children>
-                  <Button fx:id="btnLogOut" layoutX="20.0" mnemonicParsing="false" onAction="#onClickLogOut" prefHeight="63.0" prefWidth="209.0" style="-fx-background-color: transparent; -fx-border-color: #faa200; -fx-border-width: 3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Button>
                   <ImageView fitHeight="53.0" fitWidth="56.0" layoutX="25.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="2.0">
                      <image>
-                        <Image url="@../image/259811733_299915048686172_3156302327123501634_n.png" />
+                        <Image url="@../../../../../New%20folder/YummyManager/src/admin/image/259811733_299915048686172_3156302327123501634_n.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="78.0" layoutY="13.0" prefHeight="30.0" prefWidth="79.0" text="Log Out" textFill="#eb950b" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="13.0">
@@ -54,6 +45,7 @@ fx:controller="admin.controller.AdminHomeUi2Controller">
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
+                  <Button fx:id="btnLogOut" layoutY="2.0" mnemonicParsing="false" onAction="#onClickLogOut" prefHeight="52.0" prefWidth="193.0" style="-fx-opacity: 0;" text="Button" />
                </children>
             </AnchorPane>
          </children>

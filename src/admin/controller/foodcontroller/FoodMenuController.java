@@ -1,100 +1,105 @@
 package admin.controller.foodcontroller;
-import java.io.IOException;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import admin.databasehelper.FoodManagerDBHelper;
 import admin.frontend.Navigator;
+import admin.model.FoodItem_model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-public class FoodMenuController {
-    
-    @FXML
-    private TableView<?> tblFoodMenu;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
+public class FoodMenuController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> tcNameOfFood;
+    private StackPane paneTranslate;
 
     @FXML
-    private TableColumn<?, ?> tcIamges;
+    private VBox ContentPane;
 
     @FXML
-    private TableColumn<?, ?> tcMaterials;
+    private GridPane gridPane;
+
 
     @FXML
-    private TableColumn<?, ?> tcType;
+    private StackPane paneShowFoodOrder;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            int row = 1;
+            int col = 0;
+            List<FoodItem_model> listItems = new ArrayList<>(FoodManagerDBHelper.getAllItemFood());
+            for (FoodItem_model foodItem_model : listItems) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("../../frontend/foodfrontend/FoodItemUI.fxml"));
+                VBox vBox = fxmlLoader.load();
+                FoodItemController setItem = fxmlLoader.getController();
+                setItem.setData(foodItem_model);
+
+                if (col == 5) {
+                    col = 0;
+                    ++row;
+                }
+                gridPane.add(vBox, col++, row);
+                gridPane.setMargin(vBox, new Insets(12));;
+            }
+        } catch (Exception e) {
+            
+        }
+    }
 
     @FXML
-    private TableColumn<?, ?> tcPrice;
-
-    @FXML
-    private TableColumn<?, ?> tcStatus;
-
-    @FXML
-    private Button btnBack;
-
-    @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnEdit;
-
-    @FXML
-    private Button btnSortBy;
-
-    @FXML
-    private Button btnSetStatus;
-
-    @FXML
-    private Button btnSeeDetails;
-
-    @FXML
-    private TextField txtSearch;
-
-    @FXML
-    private Button btnSearch;
-
-    @FXML
-    private Button btnCancel;
-
-    @FXML
-    void onClickAdd(ActionEvent event) {
+    void onclickBill(ActionEvent event) {
 
     }
 
     @FXML
-    void onClickBack(ActionEvent event) throws IOException {
-        Navigator.getInstance().goToAdminHome2();
-    }
-
-    @FXML
-    void onClickCancel(ActionEvent event) {
-        System.exit(0);
-    }
-
-    @FXML
-    void onClickEdit(ActionEvent event) {
+    void onclickDessert(ActionEvent event) {
 
     }
 
     @FXML
-    void onClickSearch(ActionEvent event) {
+    void onclickDrinks(ActionEvent event) {
 
     }
 
     @FXML
-    void onClickSeeDetails(ActionEvent event) {
+    void onclickFoodMain(ActionEvent event) {
 
     }
 
     @FXML
-    void onClickSetStatus(ActionEvent event) {
+    void onclickHotPot(ActionEvent event) {
 
     }
 
     @FXML
-    void onClickSortBy(ActionEvent event) {
+    void onclickMenu(ActionEvent event) {
 
     }
+
+    @FXML
+    void onclickPosition(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onclickSalad(ActionEvent event) {
+
+    }
+
 }
