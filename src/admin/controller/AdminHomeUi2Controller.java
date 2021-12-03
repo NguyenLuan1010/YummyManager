@@ -13,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 public class AdminHomeUi2Controller{
     @FXML
@@ -37,14 +39,30 @@ public class AdminHomeUi2Controller{
     private Button btnLogOut;
 
     @FXML
-    void onClickAccount(ActionEvent event) {
+    private Button btnCancel;
 
+    @FXML
+    private Button btnHidden;
+
+    @FXML
+    void onClickCancel(ActionEvent event) throws IOException {
+       Navigator.getInstance().goToLOGIN();
+    }
+    
+    @FXML
+    void onClickHidden(ActionEvent event) {
+        Object Node;
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    @FXML
+    void onClickAccount(ActionEvent event) throws IOException {
+       Navigator.getInstance().goToAccountHome();
     }
 
     @FXML
     void onClickBillOrder(ActionEvent event) throws IOException {
         Navigator.getInstance().goToBillOrder();
-        System.out.println("aaaaaaaaa");
     }
 
     @FXML
@@ -53,23 +71,23 @@ public class AdminHomeUi2Controller{
     }
 
     @FXML
-    void onClickFoodMenu(ActionEvent event) {
-
+    void onClickFoodMenu(ActionEvent event) throws IOException {
+       Navigator.getInstance().goToFoodMenu();
     }
 
     @FXML
-    void onClickLogOut(ActionEvent event) {
-
+    void onClickLogOut(ActionEvent event) throws IOException {
+        Navigator.getInstance().goToLOGIN();
     }
 
     @FXML
-    void onClickSale(ActionEvent event) {
-
+    void onClickSale(ActionEvent event) throws IOException {
+       Navigator.getInstance().goToSaleDetails();
     }
 
     @FXML
-    void onClickTableMap(ActionEvent event) {
-
+    void onClickTableMap(ActionEvent event) throws IOException {
+      Navigator.getInstance().goToTableMap();
     }
   
 }

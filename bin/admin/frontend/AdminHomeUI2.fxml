@@ -12,12 +12,34 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" 
-prefWidth="1026.0" style="-fx-background-color: #062115;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" 
-fx:controller="admin.controller.AdminHomeUi2Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="1026.0" style="-fx-background-color: #062115;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.controller.AdminHomeUi2Controller">
    <top>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="129.0" prefWidth="1026.0" BorderPane.alignment="CENTER">
          <children>
+            <AnchorPane layoutX="-236.0" prefHeight="43.0" prefWidth="867.0" style="-fx-background-color: #062115;">
+               <children>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="1150.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="1150.0" AnchorPane.topAnchor="3.0">
+                     <image>
+                        <Image url="@../image/251354162_203864655259952_5497990899445870357_n.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="1221.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="1221.0" AnchorPane.topAnchor="3.0">
+                     <image>
+                        <Image url="@../image/261628920_3099959083612182_27027738788534987_n.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="btnCancel" layoutX="1218.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="37.0" prefWidth="44.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1218.0" AnchorPane.topAnchor="0.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="btnHidden" layoutX="1147.0" mnemonicParsing="false" onAction="#onClickHidden" prefHeight="37.0" prefWidth="44.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1147.0" AnchorPane.topAnchor="0.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </AnchorPane>
             <ImageView fitHeight="160.0" fitWidth="206.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../image/259865915_750053942621769_5448810805767322473_n.png" />

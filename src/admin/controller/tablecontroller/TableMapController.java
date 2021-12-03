@@ -13,6 +13,8 @@ import admin.model.TableMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -23,7 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 import javafx.scene.input.MouseEvent;
@@ -94,10 +96,23 @@ public class TableMapController implements Initializable {
     @FXML
     private AnchorPane PaneShow;
 
+    @FXML
+    private Button btnCancel;
+
+    @FXML
+    private Button btnHidden;
+
+    @FXML
+    private AnchorPane paneSearchTranslate;
+
+    @FXML
+    private TextField txtSearch;
+
     ObservableList<TableMap> listTab = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        paneSearchTranslate.setTranslateY(-300);
         paneTranslate.setTranslateX(-700);
         paneSlide1.setVisible(true);
         paneSlide2.setVisible(false);
@@ -116,18 +131,56 @@ public class TableMapController implements Initializable {
             e.printStackTrace();
         }
 
+        FilteredList<TableMap> filteredData = new FilteredList<>(listTab , b ->true);
+        txtSearch.textProperty().addListener((observable, oldValue , newValue) ->{
+            filteredData.setPredicate(TableMap-> {
+                if(newValue.isEmpty() || newValue.isBlank() || newValue == null){
+                   return true;
+                }
+                String searchKeyword = newValue.toLowerCase();
+                if(String.valueOf(TableMap.getFloorsNumber()).toLowerCase().indexOf(searchKeyword) > -1){
+                   return true;
+                }else if(String.valueOf(TableMap.getSeatsNumber()).toLowerCase().indexOf(searchKeyword) > -1){
+                   return true;
+                }else if(TableMap.getTableId().toLowerCase().indexOf(searchKeyword) > -1){
+                   return true;
+                }else if(TableMap.getTableName().indexOf(searchKeyword) > -1){
+                   return true;
+                }else if(TableMap.getTableStatus().indexOf(searchKeyword) > -1){
+                  return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+        SortedList<TableMap> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblTableMap.comparatorProperty());
+        tblTableMap.setItems(sortedData);
+
     }
 
     @FXML
     void onClickTableView(MouseEvent event) {
         Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
+        Navigator.getInstance().translateSideYBarMinus(paneSlide1, paneSlide2, paneSearchTranslate, -300, 0);
     }
 
     @FXML
     void onClickAdd(ActionEvent event) {
         Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
     }
+    
+    @FXML
+    void onClickCancel(ActionEvent event) throws IOException {
+        Navigator.getInstance().goToAdminHome2();
+    }
 
+    @FXML
+    void onClickHidden(ActionEvent event) {
+        Object Node;
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
     @FXML
     void onClickBack(ActionEvent event) throws IOException {
         Navigator.getInstance().goToAdminHome2();
@@ -141,14 +194,14 @@ public class TableMapController implements Initializable {
     @FXML
     void onClickMainSearch(ActionEvent event) {
 
-        Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
-        ;
+        Navigator.getInstance().translateSideYBarPlus(paneSlide1, paneSlide2, paneSearchTranslate, 0, -300);
+        
 
     }
 
     @FXML
     void onClickSearch(ActionEvent event) {
-        Navigator.getInstance().translateSideBarMinus(paneSlide1, paneSlide2, paneTranslate, -770, 0);
+        Navigator.getInstance().translateSideYBarMinus(paneSlide1, paneSlide2, paneSearchTranslate, -300, 0);
     }
 
     @FXML
@@ -173,7 +226,6 @@ public class TableMapController implements Initializable {
         if (tbl == null) {
             Navigator.getInstance().showAlert(AlertType.ERROR, "Please select one!");
         } else {
-
             Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate,0,-600);
 
             FXMLLoader loader = new FXMLLoader();

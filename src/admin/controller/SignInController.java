@@ -2,7 +2,9 @@ package admin.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -15,9 +17,12 @@ import javafx.fxml.Initializable;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -25,8 +30,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 public class SignInController implements Initializable {
   @FXML
@@ -97,23 +105,43 @@ public class SignInController implements Initializable {
   }
 
   @FXML
-  void onClickForgotAccount(ActionEvent event) throws IOException, MessagingException {
+  void onClickForgotAccount(ActionEvent event) throws IOException, MessagingException, SQLException {
     String email = txtEmail.getText();
     int flag = 1;
     List<Account> listAccount = AccountDBHelper.getAllAccount();
     if (email.isEmpty()) {
-      Navigator.getInstance().goToConfirmEmail();
+      Navigator.getInstance().newPane("../frontend/loginfrontend/confirmEmail.fxml");
     } else {
-      String emailCheck  = " ";
-      loop: for (int i = 0 ; i < listAccount.size() ;i++) {
-         emailCheck = listAccount.get(i).getEmail();
+      String emailCheck = " ";
+      loop: for (int i = 0; i < listAccount.size(); i++) {
+        emailCheck = listAccount.get(i).getEmail();
       }
       if (!AccountDBHelper.checkEmailRegex(email)) {
         Navigator.getInstance().showAlert(AlertType.ERROR, "Email is invalid.Please enter email again!");
       } else if (!email.equals(emailCheck)) {
         Navigator.getInstance().showAlert(AlertType.ERROR, "Email is Wrong!");
-      }else {
+      } else {
         AccountDBHelper.sendMail(email);
+        InputCode(email);
+        txtEmail.clear();
+      }
+    }
+  }
+
+  public void InputCode(String email) throws SQLException {
+    TextInputDialog txDialog = new TextInputDialog();
+    txDialog.setHeaderText("The OTP code has been sent to:" + " " + email);
+    txDialog.setContentText("Please enter the OTP code:");
+    txDialog.getDialogPane().setStyle("-fx-background-color: #39b87f;");
+    Optional<String> result = txDialog.showAndWait();
+    TextField input = txDialog.getEditor();
+    if (result.isPresent()) {
+      if (input.getText().equals(AccountDBHelper.getOTP(email))) {
+        AccountDBHelper.updatePassword(email);
+        Navigator.getInstance().showAlert(AlertType.INFORMATION,
+            "Your new password:" + " " + AccountDBHelper.getPassword(email));
+      } else {
+        Navigator.getInstance().showAlert(AlertType.ERROR, "The OTP code is wrong!");
       }
     }
   }
@@ -126,8 +154,8 @@ public class SignInController implements Initializable {
   }
 
   @FXML
-  void onClickLogIn(ActionEvent event) {
-
+  void onClickLogIn(ActionEvent event) throws IOException {
+     AccountDBHelper.AdminLogIn(txtEmail.getText(),txtPassword.getText());
   }
 
   @FXML

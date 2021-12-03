@@ -1,6 +1,7 @@
 package admin.controller.billcontroller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import admin.databasehelper.BillOrderDBHelper;
@@ -16,26 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class BillPayment_Controller implements Initializable {
-
-    public static BillOrder_Model billPay;
-
-    @FXML
-    private TableView<BillPayment_Model> tblBillPay;
-
-    @FXML
-    private TableColumn<BillPayment_Model, String> colNameFood;
-
-    @FXML
-    private TableColumn<BillPayment_Model, Integer> colAmount;
-
-    @FXML
-    private TableColumn<BillPayment_Model, Integer> colUnitPrice;
-
-    @FXML
-    private TableColumn<BillPayment_Model, Integer> colIntoMoney;
-
-    // -----------------------
-
     @FXML
     private Label billCode;
 
@@ -49,6 +30,21 @@ public class BillPayment_Controller implements Initializable {
     private Label table;
 
     @FXML
+    private TableView<BillPayment_Model> tblBillPay;
+
+    @FXML
+    private TableColumn<BillPayment_Model, String> colNameFood;
+
+    @FXML
+    private TableColumn<BillPayment_Model, String> colAmount;
+
+    @FXML
+    private TableColumn<BillPayment_Model, String> colUnitPrice;
+
+    @FXML
+    private TableColumn<BillPayment_Model, String> colIntoMoney;
+
+    @FXML
     private Label total;
 
     @FXML
@@ -57,36 +53,34 @@ public class BillPayment_Controller implements Initializable {
     @FXML
     private Label totalPay;
 
+    @FXML
+    private Label txtStatus;
+    @FXML
+    private Label txtBillID;
+
+    public void LoadData(BillOrder_Model bill) {
+        txtBillID.setText(bill.getBillId());
+        System.out.println(txtBillID.getText());
+        billCode.setText(bill.getDetailBillID());
+        date.setText(bill.getDateTime());
+        table.setText(bill.getTableID());
+        total.setText(bill.getSumofPrice());
+        txtStatus.setText(bill.getStatus());
+        voucher.setText(bill.getSaleCode());
+
+        ObservableList<BillPayment_Model> listBill = FXCollections.observableArrayList();
+        List<BillPayment_Model> listData;
+        listData = BillOrderDBHelper.getDataForBill(bill.getDetailBillID());
+        System.out.println(listData.size() + "Detail");
+        listBill.addAll(listData);
+        tblBillPay.setItems(listBill);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setData();
-        setDataForTable();
-        System.out.println(billPay.getSUMOFPRICES());
-    }
-
-    private void setData() {
-        billCode.setText(billPay.getBILLID());
-        date.setText(billPay.getDATETIME());
-        cashier.setText("Tran Dinh Nam");
-        table.setText(billPay.getTABLEID());
-    }
-
-    private void setDataForTable() {
-
-        ObservableList<BillPayment_Model> billDetail = FXCollections.observableArrayList();
-
-        billDetail.addAll(BillOrderDBHelper.getDataForBill(billPay.getDETAILBILLID()));
-        
-        tblBillPay.setItems(billDetail);
-
-        colNameFood.setCellValueFactory(new PropertyValueFactory<>("FOODNAME"));
-
-        colAmount.setCellValueFactory(new PropertyValueFactory<>("FOODQUANTITY"));
-
-        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("FOODPRICE"));
-
-        colIntoMoney.setCellValueFactory(new PropertyValueFactory<>("SUMOFPRICE"));
-
+        colNameFood.setCellValueFactory(CellData -> CellData.getValue().getFoodNameProperty());
+        colAmount.setCellValueFactory(CellData -> CellData.getValue().getFoodQuantityProperty());
+        colUnitPrice.setCellValueFactory(CellData -> CellData.getValue().getFoodPriceProperty());
+        colIntoMoney.setCellValueFactory(CellData -> CellData.getValue().getSumOfUnitPriceProperty()); 
     }
 
 }

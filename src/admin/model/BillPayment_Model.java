@@ -1,48 +1,61 @@
 package admin.model;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class BillPayment_Model {
-    String FOODNAME;
-    int FOODQUANTITY;
-    int FOODPRICE;
-    int SUMOFPRICE;
+    private StringProperty FoodName;
+    private StringProperty FoodQuantity;
+    private StringProperty FoodPrice;
+    private StringProperty SumOfUnitPrice;
 
-    public BillPayment_Model(String fOODNAME, int fOODQUANTITY, int fOODPRICE, int sUMOFPRICE) {
-        FOODNAME = fOODNAME;
-        FOODQUANTITY = fOODQUANTITY;
-        FOODPRICE = fOODPRICE;
-        SUMOFPRICE = sUMOFPRICE;
+    public BillPayment_Model(String FoodName, String FoodQuantity , String FoodPrice, String SumOfUnitPrice) {
+        this.FoodName = new SimpleStringProperty(FoodName);
+        this.FoodQuantity = new SimpleStringProperty(FoodQuantity);
+        this.FoodPrice = new SimpleStringProperty(FoodPrice);
+        this.SumOfUnitPrice = new SimpleStringProperty(SumOfUnitPrice);
     }
 
-    public String getFOODNAME() {
-        return FOODNAME;
+    public String getFoodName() {
+        return FoodName.getValue();
     }
 
-    public void setFOODNAME(String fOODNAME) {
-        FOODNAME = fOODNAME;
+    public void setFoodName(String FoodName) {
+        this.FoodName.setValue(FoodName);
     }
 
-    public int getFOODQUANTITY() {
-        return FOODQUANTITY;
+    public String getFoodQuantity() {
+        return FoodQuantity.getValue();
     }
 
-    public void setFOODQUANTITY(int fOODQUANTITY) {
-        FOODQUANTITY = fOODQUANTITY;
+    public void setFoodQuantity(String FoodQuantity) {
+        this.FoodQuantity.setValue(FoodQuantity);
     }
 
-    public int getFOODPRICE() {
-        return FOODPRICE;
+    public String getFoodPrice() {
+        return FoodPrice.getValue();
     }
 
-    public void setFOODPRICE(int fOODPRICE) {
-        FOODPRICE = fOODPRICE;
+    public void setFoodPrice(String FoodPrice) {
+        this.FoodPrice.setValue(FoodPrice);
     }
 
-    public int getSUMOFPRICE() {
-        return SUMOFPRICE;
+    public String getSumOfUnitPrice() {
+        return SumOfUnitPrice.getValue();
     }
 
-    public void setSUMOFPRICE(int sUMOFPRICE) {
-        SUMOFPRICE = sUMOFPRICE;
+    public void setSumOfUnitPrice(String SumOfUnitPrice) {
+       this.SumOfUnitPrice.setValue(SumOfUnitPrice);
     }
-
+    public StringProperty getFoodNameProperty(){
+        return FoodName;
+    }
+    public StringProperty getFoodQuantityProperty(){
+        return FoodQuantity;
+    }
+    public StringProperty getFoodPriceProperty(){
+        return FoodPrice;
+    }
+    public StringProperty getSumOfUnitPriceProperty(){
+        return SumOfUnitPrice;
+    }
 }

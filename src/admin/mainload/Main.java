@@ -1,6 +1,7 @@
 package admin.mainload;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.mail.MessagingException;
 
@@ -11,14 +12,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main  extends Application{
-    public static void main(String[] args) throws MessagingException {
-      launch(args);
+    public static void main(String[] args) {
+        launch(args);
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        //stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
         Navigator.getInstance().setState(stage);
-        Navigator.getInstance().goToAccountHome();
+        Navigator.getInstance().goToLOGIN();
     } 
 }

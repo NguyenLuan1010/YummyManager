@@ -41,9 +41,18 @@ public class EditTableController implements Initializable {
         cbTableStatus.getItems().add("Inactive");
         cbTableStatus.getItems().add("Full");
         cbTableStatus.setValue("Empty");
-
+       
     }
-
+    public void LoadData(TableMap tbl) {
+        String seat = String.valueOf(tbl.getSeatsNumber());
+        String floor = String.valueOf(tbl.getFloorsNumber());
+        txtTableID.setText(tbl.getTableId());
+        txtTableID.setEditable(false);
+        txtTableName.setText(tbl.getTableName());
+        txtSeatsNumber.setText(seat);
+        txtFloorsNumber.setText(floor);
+        cbTableStatus.setValue(tbl.getTableStatus());
+    }
     @FXML
     void onClickSubmit(ActionEvent event) throws SQLException, IOException {
         AddNewTableController add = new AddNewTableController();
@@ -64,16 +73,4 @@ public class EditTableController implements Initializable {
          }
 
     }
-
-    public void LoadData(TableMap tbl) {
-        String seat = String.valueOf(tbl.getSeatsNumber());
-        String floor = String.valueOf(tbl.getFloorsNumber());
-        txtTableID.setText(tbl.getTableId());
-        txtTableID.setEditable(false);
-        txtTableName.setText(tbl.getTableName());
-        txtSeatsNumber.setText(seat);
-        txtFloorsNumber.setText(floor);
-        cbTableStatus.setValue(tbl.getTableStatus());
-    }
-
 }

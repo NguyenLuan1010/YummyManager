@@ -29,7 +29,7 @@ public class SearchBillController {
         String dateBegin = dateStart.getValue().toString();
         String dateStop = dateEnd.getValue().toString();
 
-        ObservableList<BillOrder_Model> data = FXCollections.observableArrayList(BillOrderDBHelper.filterDate(dateBegin, dateStop));
+        //ObservableList<BillOrder_Model> data = FXCollections.observableArrayList(BillOrderDBHelper.filterDate(dateBegin, dateStop));
 
       /*setDataForCellTblBillOrder(data,tblBillOrder);
         onclickSeeDetailBill();*/
