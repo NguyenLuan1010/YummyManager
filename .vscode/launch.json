@@ -8,18 +8,24 @@
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
-            "mainClass": "admin.mainload.Main",
-            "projectName": "YummyManager_8b8c3e44",
-            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-17.0.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
-           
+            "mainClass": "yummycode.mainload.Main",
+            "projectName": "Yummy-Gang_bad0c27b",
+            
         },
         {
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "admin.mainload.Main",
-            "projectName": "YummyManager_dbcdc492",
-           
+            "projectName": "YummyManager_8b8c3e44",
+            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-17.0.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "admin.mainload.Main",
+            "projectName": "YummyManager_dbcdc492"
         },
         {
             "type": "java",
