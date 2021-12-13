@@ -1,14 +1,18 @@
 package yummycode.model;
 
 public class FoodItem_model {
+    String idFood;
     String ImgFood;
     String NameFood;
-    double PriceFood;
+    double FOODPRICE;
 
-    public FoodItem_model(String imgFood, String nameFood, double priceFood) {
+    
+
+    public FoodItem_model(String idFood, String imgFood, String nameFood, double FOODPRICE) {
+        this.idFood = idFood;
         ImgFood = imgFood;
         NameFood = nameFood;
-        PriceFood = priceFood;
+        this.FOODPRICE = FOODPRICE;
     }
 
     public String getImgFood() {
@@ -23,16 +27,24 @@ public class FoodItem_model {
         return NameFood;
     }
 
+    public String getIdFood() {
+        return idFood;
+    }
+
+    public void setIdFood(String idFood) {
+        this.idFood = idFood;
+    }
+
     public void setNameFood(String nameFood) {
         NameFood = nameFood;
     }
 
-    public double getPriceFood() {
-        return PriceFood;
+    public double getFOODPRICE() {
+        return FOODPRICE;
     }
 
-    public void setPriceFood(double priceFood) {
-        PriceFood = priceFood;
+    public void setFOODPRICE(double FOODPRICE) {
+        FOODPRICE = FOODPRICE;
     }   
 }
 

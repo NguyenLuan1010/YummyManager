@@ -133,6 +133,7 @@ public class AccountController implements Initializable {
     void onClickMainAdd(ActionEvent event) {
         Navigator.getInstance().translateSideBarPlus(paneSlide1, paneSlide2, paneTranslate, 0, -600);
         Navigator.getInstance().changePage(contentArea, "../frontend/accountfrontend/AddNewAccount.fxml");
+        
     }
 
     @FXML

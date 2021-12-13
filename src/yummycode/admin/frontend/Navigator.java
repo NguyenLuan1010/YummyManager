@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import yummycode.employee.controller.FoodMenuController;
+import yummycode.model.TableMap;
 
 public class Navigator {
 
@@ -34,8 +36,11 @@ public class Navigator {
 
     private static final String CONFIRM_EMAIL = "loginfrontend/confirmEmail.fxml";
 
-    public static final String EMPLOYEE_FOODITEMS = "../../employee/frontend/FoodItemUI.fxml";
-    public static final String EMPLOYEE_FOODMENU = "../../employee/frontend/FoodMenuUI.fxml";
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static final String EMPLOYEE_TABLEMAP = "../../employee/frontend/TableMap.fxml";
+    private static final String EMPLOYEE_FOODMENU = "../../employee/frontend/FoodMenuUI.fxml";
+    private static final String EMPLOYEE_PAYMENT = "../../employee/frontend/PaymentUI.fxml";
 
     public Navigator() {
 
@@ -80,18 +85,23 @@ public class Navigator {
         goToScene("AcountHome", ACCOUNT_HOME);
     }
 
-
     public void goToConfirmEmail() throws IOException {
         goToScene("Confirm Email", CONFIRM_EMAIL);
     }
 
-    public void goToEmployeeFoodItems() throws IOException {
-        goToScene("FoodItems", EMPLOYEE_FOODITEMS);
-    }
-    public void goToEmployeeFoodMenu() throws IOException {
-        goToScene("FoodMenu", EMPLOYEE_FOODMENU);
+    public void goToEmployeeTableMap() throws IOException {
+        goToScene("Table map", EMPLOYEE_TABLEMAP);
     }
 
+    public void goTableMapFoodMenu(TableMap tblInf, String billCode) throws IOException {
+        goToScene("FoodMenu", EMPLOYEE_FOODMENU);
+        FoodMenuController controller = fxmlloader.getController();
+        controller.loadBillInf(tblInf, billCode);
+    }
+
+    public void gotoPayment() throws IOException {
+        goToScene("Payment", EMPLOYEE_PAYMENT);
+    }
 
     // Change page on a Scene
     public void changePage(StackPane contentArea, String source) {
@@ -180,11 +190,11 @@ public class Navigator {
         }
         state.setTitle(title);
         state.setScene(scene);
+        state.centerOnScreen();
         state.show();
     }
 
-
-    public void newPane(String URL) throws IOException{
+    public void newPane(String URL) throws IOException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource(URL));
         Stage stage = new Stage();
         Parent root = fxmlloader.load();
@@ -192,9 +202,10 @@ public class Navigator {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-       
+
     }
-    public Scene showInputPane(Stage stage ,Parent root){
+
+    public Scene showInputPane(Stage stage, Parent root) {
         Scene scene = new Scene(root);
         stage.setResizable(false);
         return scene;
@@ -204,5 +215,26 @@ public class Navigator {
         Random random = new Random();
         int randomID = random.nextInt(number) + 10000;
         return randomID;
+    }
+
+    // ramdom
+    private static final String alpha = "abcdefghijklmnopqrstuvwxyz"; // a-z
+    private static final String alphaUpperCase = alpha.toUpperCase(); // A-Z
+    private static final String digits = "0123456789"; // 0-9
+    private static final String ALPHA_NUMERIC = alpha + alphaUpperCase + digits;
+    private static Random generator = new Random();
+
+    public static String randomAlphaNumeric(int numberOfCharactor) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numberOfCharactor; i++) {
+            int number = randomNumber(0, ALPHA_NUMERIC.length() - 1);
+            char ch = ALPHA_NUMERIC.charAt(number);
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+
+    public static int randomNumber(int min, int max) {
+        return generator.nextInt((max - min) + 1) + min;
     }
 }

@@ -277,7 +277,7 @@ public class AccountDBHelper {
                         Navigator.getInstance().goToAdminHome2();
                       
                     } else if (type.equalsIgnoreCase("Employee")) {
-                        Navigator.getInstance().goToEmployeeFoodMenu();
+                        Navigator.getInstance().goToEmployeeTableMap();
                         break loop;
                     }
                 }

@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import yummycode.admin.databasehelper.AccountDBHelper;
 import yummycode.admin.frontend.Navigator;
 import yummycode.model.Account;

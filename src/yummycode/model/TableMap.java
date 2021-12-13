@@ -13,9 +13,13 @@ public class TableMap {
     private ObjectProperty<Integer> floorsNumber;
     private StringProperty tableStatus;
 
-    public TableMap() {
-    }
+    String tableID;
+    int seat;
+    int floorNumber;
+    String tblStatus;
 
+    /////////////////////////
+    
     public TableMap(String tableId, String tableName, int seatsNumber, int floorsNumber, String tableStatus) {
         this.tableId = new SimpleStringProperty(tableId);
         this.tableName = new SimpleStringProperty(tableName);
@@ -83,5 +87,50 @@ public class TableMap {
     public StringProperty getTableStatusProperty() {
         return tableStatus;
     }
+
+    ////////////////////////
+
+    
+
+    public String getTableID() {
+        return tableID;
+    }
+
+    public TableMap(String tableID, int seat, int floorNumber, String tblStatus) {
+        this.tableID = tableID;
+        this.seat = seat;
+        this.floorNumber = floorNumber;
+        this.tblStatus = tblStatus;
+    }
+
+    public void setTableID(String tableID) {
+        this.tableID = tableID;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+
+    public int getFloorNumber() {
+        return floorNumber;
+    }
+
+    public void setFloorNumber(int floorNumber) {
+        this.floorNumber = floorNumber;
+    }
+
+    public String getTblStatus() {
+        return tblStatus;
+    }
+
+    public void setTblStatus(String tblStatus) {
+        this.tblStatus = tblStatus;
+    }
+
+    
 
 }
