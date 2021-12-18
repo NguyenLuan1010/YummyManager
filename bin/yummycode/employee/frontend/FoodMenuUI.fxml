@@ -77,15 +77,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="400.0">
                      <children>
-                        <BorderPane onMousePressed="#onclickBack" prefHeight="57.0" prefWidth="45.0">
-                           <center>
-                              <ImageView fitHeight="40.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-                                 <image>
-                                    <Image url="@../image/275-2753886_rounded-arrow-icon-back-ios-png-removebg-preview.png" />
-                                 </image>
-                              </ImageView>
-                           </center>
-                        </BorderPane>
+                        <BorderPane onMousePressed="#onclickBack" prefHeight="60.0" prefWidth="18.0" />
                         <Label prefHeight="30.0" prefWidth="67.0" text="Order - ">
                            <HBox.margin>
                               <Insets left="12.0" />
@@ -99,7 +91,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Pane prefHeight="60.0" prefWidth="105.0" />
+                        <Pane prefHeight="60.0" prefWidth="142.0" />
                         <ImageView fitHeight="37.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/z2988769879453_9676b0cfb408d4cc9217b6a72cca2816.jpg" />
@@ -165,7 +157,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="TotalMoney" prefHeight="40.0" text="25.5">
+                              <Label fx:id="TotalMoney" prefHeight="40.0" text="0.0">
                                  <HBox.margin>
                                     <Insets left="8.0" />
                                  </HBox.margin>
@@ -178,6 +170,11 @@
                               <Insets right="12.0" />
                            </HBox.margin>
                         </HBox>
+                        <Label prefHeight="40.0" prefWidth="22.0" text="\$">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
                      </children>
                      <VBox.margin>
                         <Insets left="12.0" right="12.0" />

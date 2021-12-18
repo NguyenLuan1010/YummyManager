@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yummycode.admin.databasehelper.ConnectDBHelper;
+import yummycode.model.Bill_Model;
 import yummycode.model.FoodItem_model;
 import yummycode.model.Food_model;
 import yummycode.model.Payment_Model;
@@ -98,15 +99,18 @@ public class FoodManagerDBHelper {
         try (Connection connect = ConnectDBHelper.getConnect();
                 PreparedStatement stm = connect
                         .prepareStatement(
-                                "SELECT DISTINCT(b.TABLEID),c.SEATSNUMBER ,a.SUMOFPRICE FROM `tblbill` a JOIN tbldetailbill b on a.DETAILBILLID = b.DETAILBILLID join tbltablemap c on c.TABLEID = a.TABLEID WHERE a.BillStatus = 'UnPaid'")) {
+                                "SELECT DISTINCT(b.TABLEID), d.DISCOUNT ,a.BILLID , a.DATETIME,c.SEATSNUMBER ,a.SUMOFPRICE FROM `tblbill` a JOIN tbldetailbill b on a.DETAILBILLID = b.DETAILBILLID join tbltablemap c on c.TABLEID = a.TABLEID JOIN tblsaledetail d on d.SALECODE = a.SALECODE WHERE a.BillStatus = 'UnPaid'")) {
             stm.execute();
             ResultSet rs = stm.getResultSet();
             while (rs.next()) {
                 Double price = rs.getDouble("SUMOFPRICE");
                 String tableID = rs.getString("TABLEID");
                 int member = rs.getInt("SEATSNUMBER");
+                String idBill = rs.getString("BILLID");
+                String dateTime = rs.getString("DATETIME");
+                int sale = rs.getInt("DISCOUNT");
 
-                Payment_Model tbl = new Payment_Model(price, tableID, member);
+                Payment_Model tbl = new Payment_Model(price, tableID, member, idBill, dateTime, sale);
 
                 listTable.add(tbl);
             }
@@ -221,7 +225,7 @@ public class FoodManagerDBHelper {
         return false;
     }
 
-    public static boolean insertInfForBill(String BILLID, String DATETIME, String TABLEID, String DETAILBILLID) {
+    public static boolean insertInfForBill(String BILLID, String DATETIME, String TABLEID, String DETAILBILLID, Double totalMoney) {
         try (
                 Connection connect = ConnectDBHelper.getConnect();
                 PreparedStatement stm = connect.prepareStatement(
@@ -231,7 +235,7 @@ public class FoodManagerDBHelper {
             stm.setString(3, TABLEID);
             stm.setString(4, DETAILBILLID);
             stm.setString(5, "Null");
-            stm.setDouble(6, 100);
+            stm.setDouble(6, totalMoney);
 
             int resultInsert;
 
@@ -341,5 +345,49 @@ public class FoodManagerDBHelper {
         }
         return codeBill;
     }
+
+    public static List<Bill_Model> getDataForBill(String BillID) {
+        List<Bill_Model> data = new ArrayList<>();
+        try (Connection cnn = ConnectDBHelper.getConnect();
+                PreparedStatement stm = cnn
+                        .prepareStatement(
+                                "SELECT a.BILLID, a.DATETIME, a.TABLEID, d.FOODNAME, b.FOODQUANTITY, d.FOODPRICE, c.DISCOUNT FROM `tblbill` a join tbldetailbill b on a.DETAILBILLID=b.DETAILBILLID join tblsaledetail c on a.SALECODE=c.SALECODE join tblfoodmenu d on d.FOODID = b.FOODID WHERE a.BILLID = ?");) {
+
+            stm.setString(1, BillID);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                String colNameFood = rs.getString("d.FOODNAME");
+                int colAmount = rs.getInt("b.FOODQUANTITY");
+                Double colUnitPrice = rs.getDouble("d.FOODPRICE");
+
+                Bill_Model billPay = new Bill_Model(colNameFood, colAmount, colUnitPrice);
+                data.add(billPay);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return data;
+    }
+
+    public static boolean ChangeStatusTable(String status, String tableID) {
+        try (
+                Connection snn = ConnectDBHelper.getConnect();
+                PreparedStatement stm = snn.prepareStatement(
+                        "UPDATE `tbltablemap` SET `TABLESTATUS`= ? WHERE `TABLEID` = ?");) {
+            stm.setString(1, status);
+            stm.setString(2, tableID);
+
+            int resultUpdate = stm.executeUpdate();
+            if (resultUpdate > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+
 
 }

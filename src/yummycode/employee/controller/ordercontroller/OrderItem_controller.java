@@ -49,6 +49,7 @@ public class OrderItem_controller implements Initializable{
 
     @FXML
     void onclickFoodItem(MouseEvent event) {
+       System.out.println(nameFood.getText() + quantity.getText() );
        
     }
 

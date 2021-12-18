@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import yummycode.admin.frontend.Navigator;
+import yummycode.employee.controller.tablecontroller.TableItem_controller;
 import yummycode.employee.databasehelper.FoodManagerDBHelper;
 import yummycode.model.Payment_Model;
 
@@ -50,10 +51,8 @@ public class Payment_controller implements Initializable {
 
             if (option.get() == ButtonType.OK) {
                 if (FoodManagerDBHelper.paidBill(idTable)) {
-                    System.out.println("ok");
-                    ;
+                    FoodManagerDBHelper.ChangeStatusTable( TableItem_controller.STATUS_EMPTY , idTable);
                 } else {
-                    System.out.println("fail");
                 }
                 Navigator.getInstance().gotoPayment();
             } else if (option.get() == ButtonType.CANCEL) {
@@ -61,6 +60,11 @@ public class Payment_controller implements Initializable {
             }
 
         }
+    }
+
+    @FXML
+    void onClickSeeDetail(ActionEvent event) throws IOException {
+        Navigator.getInstance().gotoBillPayment();
     }
 
     @FXML
@@ -83,8 +87,7 @@ public class Payment_controller implements Initializable {
                 vBox = fxmlLoader.load();
 
                 PaymentItem_controller item_controller = fxmlLoader.getController();
-                item_controller.loadData(pModel.getPrice(), pModel.getTableID(), pModel.getMember());
-                ;
+                item_controller.loadData(pModel.getPrice(), pModel.getTableID(), pModel.getMember(), pModel.getIdBill(), pModel.getDateTime(), pModel.getSale());
 
                 if (col == 5) {
                     col = 0;

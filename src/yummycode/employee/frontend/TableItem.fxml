@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yummycode.employee.controller.tablecontroller.TableItem_controller">
    <children>
-      <Button fx:id="textButton" layoutX="18.0" layoutY="28.0" mnemonicParsing="false" onAction="#onclickChooseTable" prefHeight="40.0" prefWidth="85.0" style="-fx-background-color: #2062c9; -fx-background-radius: 12;" text="1" textFill="WHITE">
+      <Button fx:id="textButton" layoutX="18.0" layoutY="28.0" mnemonicParsing="false" onAction="#onclickChooseTable" prefHeight="40.0" prefWidth="85.0"  text="1" textFill="WHITE">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>

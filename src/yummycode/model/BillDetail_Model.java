@@ -1,24 +1,25 @@
 package yummycode.model;
 
 public class BillDetail_Model {
-    int codeNumberBill;
+    String BillID;
     String date;
-    String cashier;
     double totalPay;
-    
-    public BillDetail_Model(int codeNumberBill, String date, String cashier, double totalPay) {
-        this.codeNumberBill = codeNumberBill;
+    String idTable;
+    int voucher;
+
+    public BillDetail_Model(String billID, String date, String idTable, int voucher) {
+        BillID = billID;
         this.date = date;
-        this.cashier = cashier;
-        this.totalPay = totalPay;
+        this.idTable = idTable;
+        this.voucher = voucher;
     }
 
-    public int getCodeNumberBill() {
-        return codeNumberBill;
+    public String getBillID() {
+        return BillID;
     }
 
-    public void setCodeNumberBill(int codeNumberBill) {
-        this.codeNumberBill = codeNumberBill;
+    public void setBillID(String billID) {
+        BillID = billID;
     }
 
     public String getDate() {
@@ -29,14 +30,6 @@ public class BillDetail_Model {
         this.date = date;
     }
 
-    public String getCashier() {
-        return cashier;
-    }
-
-    public void setCashier(String cashier) {
-        this.cashier = cashier;
-    }
-
     public double getTotalPay() {
         return totalPay;
     }
@@ -45,6 +38,20 @@ public class BillDetail_Model {
         this.totalPay = totalPay;
     }
 
-    
-    
+    public String getIdTable() {
+        return idTable;
+    }
+
+    public void setIdTable(String idTable) {
+        this.idTable = idTable;
+    }
+
+    public int getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(int voucher) {
+        this.voucher = voucher;
+    }
+
 }

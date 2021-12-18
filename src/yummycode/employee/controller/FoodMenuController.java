@@ -41,6 +41,7 @@ import javafx.scene.layout.VBox;
 
 public class FoodMenuController implements Initializable {
     boolean saved = false;
+    public static Button btn;
     // food menu
     @FXML
     private TextField searchFood;
@@ -80,39 +81,49 @@ public class FoodMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        if (OrderItem_controller.models == null) {
+
+        } else {
+            double totalPrice = 0.0;
+            saveListFood = OrderItem_controller.models;
+            for (Food_model e : saveListFood) {
+                totalPrice += e.getTotalMoney();
+            }
+
+            TotalMoney.setText(String.valueOf(totalPrice));
+        }
+
         FoodItemController.container = ContainerFoodOrder;
 
-            searchFood.textProperty().addListener((a, b, c) -> {
-                int row = 1;
-                int col = 0;
-                List<FoodItem_model> l = new ArrayList<>(
-                        FoodManagerDBHelper.getAllFoodByName(searchFood.getText()));
-                try {
-                    for (FoodItem_model foodItem_model : l) {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("../frontend/FoodItemUI.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
+        searchFood.textProperty().addListener((a, b, c) -> {
+            int row = 1;
+            int col = 0;
+            List<FoodItem_model> l = new ArrayList<>(
+                    FoodManagerDBHelper.getAllFoodByName(searchFood.getText()));
+            try {
+                for (FoodItem_model foodItem_model : l) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("../frontend/FoodItemUI.fxml"));
+                    VBox vBox;
+                    vBox = fxmlLoader.load();
 
-                        FoodItemController foodMenuController = fxmlLoader.getController();
-                        foodMenuController.setData(foodItem_model);
-                        vBox.setVisible(true);
-                    
-                        if (col == 6) {
-                            col = 0;
-                            ++row;
-                        }
-                        gridPane.add(vBox, col++, row);
-                        gridPane.setMargin(vBox, new Insets(4));
+                    FoodItemController foodMenuController = fxmlLoader.getController();
+                    foodMenuController.setData(foodItem_model);
+                    vBox.setVisible(true);
+
+                    if (col == 6) {
+                        col = 0;
+                        ++row;
                     }
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    gridPane.add(vBox, col++, row);
+                    gridPane.setMargin(vBox, new Insets(4));
                 }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
-            });
-        
+        });
 
     }
 
@@ -125,6 +136,7 @@ public class FoodMenuController implements Initializable {
     void onclickBack(ActionEvent event) throws IOException {
         saveListFood = OrderItem_controller.models;
         // Navigator.getInstance().goToEmployeeTableMap();
+
         if (saveListFood == null) {
             Navigator.getInstance().goToEmployeeTableMap();
         } else if (saved) {
@@ -159,12 +171,39 @@ public class FoodMenuController implements Initializable {
     // order menu
 
     @FXML
-    void onclickCance(ActionEvent event) {
+    void onclickCance(ActionEvent event) throws IOException {
+        saveListFood = OrderItem_controller.models;
+        // Navigator.getInstance().goToEmployeeTableMap();
 
+        if (saveListFood == null) {
+            Navigator.getInstance().goToEmployeeTableMap();
+        } else if (saved) {
+            Navigator.getInstance().goToEmployeeTableMap();
+        } else {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirm");
+            alert.setHeaderText("Are you sure back ?");
+            alert.setContentText("if you back all data will be deleted");
+
+            // option != null.
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.get() == ButtonType.OK) {
+
+                for (int i = 0; i < FoodItemController.ListFoodOrder.size(); i++) {
+                    System.out.println(FoodItemController.ListFoodOrder.get(i).getName());
+                    FoodItemController.ListFoodOrder.remove(i);
+                }
+                Navigator.getInstance().goToEmployeeTableMap();
+            } else if (option.get() == ButtonType.CANCEL) {
+
+            }
+        }
     }
 
     @FXML
     void onclickSentChef(MouseEvent event) throws IOException {
+
         saveListFood = OrderItem_controller.models;
         if (saveListFood == null) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -175,6 +214,7 @@ public class FoodMenuController implements Initializable {
 
             alert.showAndWait();
         } else {
+            FoodManagerDBHelper.ChangeStatusTable(TableItem_controller.STATUS_SERVING, IDTable.getText());
             saved = true;
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -195,7 +235,7 @@ public class FoodMenuController implements Initializable {
                                     food_model.getQuantity(), food_model.getTotalMoney());
 
                     FoodManagerDBHelper.insertInfForBill(IDBill.getText(), dateTimeCurrent, IDTable.getText(),
-                            IDBill.getText());
+                            IDBill.getText(), Double.parseDouble(TotalMoney.getText()) );
 
                 } else {
 
@@ -218,12 +258,14 @@ public class FoodMenuController implements Initializable {
                 }
             }
 
-            for (Food_model food_model : lFood_models) {
-                lFood_models.remove(food_model);
-            }
-        }
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Confirm");
+            alert.setHeaderText("Save successfull !");
 
-        
+            alert.showAndWait();
+            Navigator.getInstance().goToEmployeeTableMap();
+
+        }
 
     }
     // function
@@ -232,7 +274,8 @@ public class FoodMenuController implements Initializable {
         IDTable.setText(tableMap.getTableID());
         seat.setText(String.valueOf(tableMap.getSeat()));
         IDBill.setText(billCode);
-/////////////////////////////////////////
+
+        /////////////////////////////////////////
         if (searchFood.getText().equals("")) {
             int row = 1;
             int col = 0;
@@ -253,14 +296,14 @@ public class FoodMenuController implements Initializable {
                     }
                     gridPane.add(vBox, col++, row);
                     gridPane.setMargin(vBox, new Insets(12));
-                    
+
                 }
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-/////////////////////////////////////////
+        /////////////////////////////////////////
         loadAllFoodOrdered(IDTable.getText());
     }
 

@@ -41,7 +41,7 @@ public class Navigator {
     private static final String EMPLOYEE_TABLEMAP = "../../employee/frontend/TableMap.fxml";
     private static final String EMPLOYEE_FOODMENU = "../../employee/frontend/FoodMenuUI.fxml";
     private static final String EMPLOYEE_PAYMENT = "../../employee/frontend/PaymentUI.fxml";
-
+    private static final String EMPLOYEE_BILLPAYMENT = "../../employee/frontend/BillPayment.fxml";
     public Navigator() {
 
     }
@@ -101,6 +101,10 @@ public class Navigator {
 
     public void gotoPayment() throws IOException {
         goToScene("Payment", EMPLOYEE_PAYMENT);
+    }
+
+    public void gotoBillPayment() throws IOException {
+        goToScene("Payment", EMPLOYEE_BILLPAYMENT);
     }
 
     // Change page on a Scene

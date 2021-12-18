@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import yummycode.admin.frontend.Navigator;
 import yummycode.employee.databasehelper.FoodManagerDBHelper;
 import yummycode.model.TableMap;
 
@@ -29,6 +31,11 @@ public class TableMap_controller implements Initializable {
 
     @FXML
     private GridPane containerTable2ndFloor;
+
+    @FXML
+    void onclickPayment(ActionEvent event) throws IOException {
+        Navigator.getInstance().gotoPayment();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,7 +60,7 @@ public class TableMap_controller implements Initializable {
                     containerTable1stFloor.add(pane, col1++, row1);
                     GridPane.setMargin(pane, new Insets(12));
                 }else if (tableMap.getFloorNumber() == 2) {
-                    if (col2 == 2) {
+                    if (col2 == 4) {
                         col2 = 0;
                         row2++;
                     }

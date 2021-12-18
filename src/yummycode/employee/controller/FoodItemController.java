@@ -62,5 +62,6 @@ public class FoodItemController {
     public void loadScene(Food_model food) throws IOException {
         FoodMenuController foodMenuController = new FoodMenuController();
         foodMenuController.LoadFoodItem(food, container);
+        
     }
 }
